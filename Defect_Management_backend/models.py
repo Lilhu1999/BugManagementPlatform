@@ -5,8 +5,8 @@ from django.db import models
 # 部门表
 class Department(models.Model):
     name = models.CharField(max_length=64, verbose_name='部门名称')
-    parentId = models.CharField(max_length=32, verbose_name='上级部门ID', default='null')
-    children = models.CharField(max_length=256, verbose_name='下级部门', default='null')
+    parentId = models.IntegerField(verbose_name='上级部门ID', default=0)
+    hasChildren = models.CharField(max_length=256, verbose_name='是否有下级部门', null=True)
 
 
 # 员工表
