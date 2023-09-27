@@ -90,6 +90,21 @@ import SelectTree from './SelectTree.vue'
           }
         })
       },
+      // 删除部门人员
+      delEmp(id) {
+        this.$axios.delete('api/emp/del/',{
+          params:{id:id}
+        }).then((response)=>{
+          const res = response.data
+          if (res['respCode']==='000000'){
+            this.$message.success('删除成功')
+            this.getEmp(id)
+          }else {
+            this.$message.success('删除失败')
+            console.log(res['respMsg'])
+          }
+        })
+      },
       getEmp(id) {
         this.$axios.get('api/emp/info/',{
           params:{id:id,name:this.empSearchInput}
@@ -110,6 +125,12 @@ import SelectTree from './SelectTree.vue'
       clearDeptDialog() {
         this.addDeptForm.name=''
         this.addDeptForm.id=[]
+      },
+      clearEmpDialog() {
+        this.addEmpForm.name=''
+        this.addEmpForm.password=''
+        this.addEmpForm.type=''
+        this.addEmpForm.deptId=[]
       },
     }
   }
@@ -159,15 +180,15 @@ import SelectTree from './SelectTree.vue'
               label="人员身份"
             >
               <template slot-scope="scope">
-                <span v-if="scope.row.type==='0'">普通用户</span>
-                <span v-else-if="scope.row.type==='1'">管理员</span>
+                <span v-if="scope.row.type===0">普通用户</span>
+                <span v-else-if="scope.row.type===1">管理员</span>
               </template>
             </el-table-column>
             <el-table-column
               label="操作"
             >
               <template slot-scope="scope">
-                <el-button type="danger">删除</el-button>
+                <el-button type="danger" size="small" @click="delEmp(scope.row.id)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -195,7 +216,7 @@ import SelectTree from './SelectTree.vue'
       </el-form-item>
     </el-form>
   </el-dialog>
-  <el-dialog :visible.sync="empDialogVisible" destroy-on-close @close="clearempDialog">
+  <el-dialog :visible.sync="empDialogVisible" destroy-on-close @close="clearEmpDialog">
     <el-form inline>
       <el-row>
         <el-col :span="12">
@@ -205,7 +226,7 @@ import SelectTree from './SelectTree.vue'
         </el-col>
         <el-col :span="12">
           <el-form-item label="人员密码">
-            <el-input size="small" v-model="addEmpForm.password"></el-input>
+            <el-input size="small" v-model="addEmpForm.password" show-password></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">

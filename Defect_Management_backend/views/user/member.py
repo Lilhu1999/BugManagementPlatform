@@ -7,6 +7,7 @@ from django.views.decorators.http import require_http_methods
 from Defect_Management_backend.models import Employee
 
 
+# 人员新增
 @csrf_exempt
 @require_http_methods(['POST'])
 def employee_add(request):
@@ -22,8 +23,9 @@ def employee_add(request):
     return JsonResponse(response)
 
 
+# 人员删除
 @csrf_exempt
-@require_http_methods(['GET'])
+@require_http_methods(['DELETE'])
 def employee_del(request):
     response = {}
     try:
@@ -37,6 +39,7 @@ def employee_del(request):
     return JsonResponse(response)
 
 
+# 获取人员
 @csrf_exempt
 @require_http_methods(['GET'])
 def employee_info(request):

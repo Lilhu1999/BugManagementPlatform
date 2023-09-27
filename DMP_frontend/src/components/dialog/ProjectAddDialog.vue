@@ -14,15 +14,28 @@
         </el-form-item>
         <el-row :gutter="30">
           <el-col :span="12">
-            <el-form-item label="项目成员">
-              <MemberCascader>
-              </MemberCascader>
+            <el-form-item label="项目部门">
+              <SelectTree
+                :multipleType="multipleType"
+                @getPid="getPid"
+              >
+              </SelectTree>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目管理员">
-              <MemberCascader>
-              </MemberCascader>
+            <el-form-item label="项目成员">
+              <el-select
+                v-model="value"
+                multiple
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -43,28 +56,53 @@
 </template>
 
 <script>
-import MemberCascader from "../MemberCascader.vue";
+import SelectTree from "../../sys_child_page/SelectTree.vue";
 
 export default {
   props:['vs'],
-  components: {MemberCascader},
+  components: {SelectTree},
   watch:{
     vs(newValue) {
       if (newValue===true) {
         this.dialogVisible = true
+        this.multipleType = true
       }
     }
   },
   data() {
     return{
       dialogVisible:false,
+      multipleType:false,
       projectData:[],
+      options:[],
+      value:[],
     }
   },
   methods:{
     sendVisible(){
       this.$emit('getVisible','false')
-    }
+    },
+    // 获取子组件传递的部门ID
+    getPid(id) {
+      const arr = []
+      // 通过部门ID给部门成员下拉框赋值
+      for (let key in id) {
+        this.$axios.get('api/emp/info/',{
+          params:{id:id[key],name:''}
+        }).then((response)=>{
+          const res = response.data
+          if (res['list'].length>0) {
+            for (let k in res['list']){
+              const dict = {}
+              dict['value'] = res['list'][k]['id']
+              dict['label'] = res['list'][k]['name']
+              arr.push(dict)
+            }
+          }
+        })
+      }
+      this.options = arr
+    },
   }
 }
 </script>
