@@ -25,7 +25,7 @@
           <el-col :span="12">
             <el-form-item label="项目成员">
               <el-select
-                v-model="value"
+                v-model="projectData.value"
                 multiple
               >
                 <el-option
@@ -40,15 +40,15 @@
           </el-col>
         </el-row>
         <el-form-item>
-          <el-input placeholder="请输入项目名称"></el-input>
+          <el-input placeholder="请输入项目名称" show-word-limit maxlength="15" v-model="projectData.name"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input type="textarea" placeholder="项目描述"></el-input>
+          <el-input type="textarea" placeholder="项目描述" show-word-limit maxlength="100" v-model="projectData.desc"></el-input>
         </el-form-item>
         <el-divider></el-divider>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="dialogVisible=false;sendVisible()">创建</el-button>
+        <el-button size="small" type="primary" @click="dialogVisible=false;sendVisible();creatProject()">创建</el-button>
         <el-button size="small" @click="dialogVisible=false;sendVisible()">取消</el-button>
       </div>
     </el-dialog>
@@ -73,9 +73,12 @@ export default {
     return{
       dialogVisible:false,
       multipleType:false,
-      projectData:[],
+      projectData:{
+        name:'',
+        desc:'',
+        value:[],
+      },
       options:[],
-      value:[],
     }
   },
   methods:{
@@ -102,6 +105,9 @@ export default {
         })
       }
       this.options = arr
+    },
+    creatProject() {
+
     },
   }
 }

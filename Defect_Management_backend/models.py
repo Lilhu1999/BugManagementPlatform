@@ -16,3 +16,13 @@ class Employee(models.Model):
     deptId = models.CharField(max_length=32, verbose_name='所属部门')
     # type 0:普通用户 1:管理员
     type = models.IntegerField(verbose_name='类型身份', default=0)
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=32, verbose_name='项目名称')
+    desc = models.CharField(max_length=128, verbose_name='项目描述')
+    dept = models.CharField(max_length=32, verbose_name='项目部门')
+    member = models.CharField(max_length=256, verbose_name='项目成员')
+    # status 进行中/已完成
+    status = models.CharField(max_length=16, verbose_name='项目状态')
+    createTime = models.DateField(verbose_name='创建时间')
