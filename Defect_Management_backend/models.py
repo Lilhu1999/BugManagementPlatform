@@ -18,6 +18,7 @@ class Employee(models.Model):
     type = models.IntegerField(verbose_name='类型身份', default=0)
 
 
+# 项目表
 class Project(models.Model):
     name = models.CharField(max_length=32, verbose_name='项目名称')
     desc = models.CharField(max_length=128, verbose_name='项目描述')
@@ -26,3 +27,21 @@ class Project(models.Model):
     # status 进行中/已完成
     status = models.CharField(max_length=16, verbose_name='项目状态')
     createTime = models.DateField(verbose_name='创建时间')
+
+
+# 缺陷表
+class Defect(models.Model):
+    title = models.CharField(max_length=64, verbose_name='缺陷标题')
+    debug = models.CharField(max_length=512, verbose_name='复现步骤')
+    belong = models.CharField(max_length=8, verbose_name='所属项目')
+    # 严重程度：致命/严重/一般/建议
+    importance = models.CharField(max_length=16, verbose_name='严重程度')
+    # 优先级：紧急/高/中/低
+    priority = models.CharField(max_length=16, verbose_name='优先级')
+    createTime = models.DateField(verbose_name='创建时间')
+    createPerson = models.CharField(max_length=16, verbose_name='创建人')
+    dealPerson = models.CharField(max_length=16, verbose_name='处理人')
+    # 状态：待修复/已修复/重新打开/关闭
+    status = models.CharField(max_length=16, verbose_name='缺陷状态')
+    videoPath = models.CharField(max_length=256, verbose_name='视频路径')
+    imagePath = models.CharField(max_length=256, verbose_name='图片路径')
