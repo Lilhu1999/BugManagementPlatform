@@ -1,6 +1,6 @@
 <script>
 export default {
-  props:['multipleType'],
+  props:['multipleType','pickedDept'],
   data() {
     return {
       treeData:[],
@@ -12,6 +12,7 @@ export default {
       selectTree:[],
       value:[],
       id:[],
+      pickedId:[],
       multiple:false,
       showCheckbox:false,
     }
@@ -22,7 +23,13 @@ export default {
         this.multiple=true
         this.showCheckbox=true
       }
-    }
+    },
+    // 父组件传递的
+    pickedDept(newValue) {
+      if (newValue) {
+        this.pickedId = eval(this.pickedDept)
+      }
+    },
   },
   mounted() {
     this.getTreeData()
@@ -43,6 +50,19 @@ export default {
         console.log(data);
       }
     },
+    // set当前选择节点
+    setCheckedKeys(keys) {
+      this.$refs.tree.setCheckedKeys(keys)
+    },
+    // 通过prop设置当前选择节点并get节点数据
+    async checkedNodes() {
+      try{
+        await this.setCheckedKeys(this.pickedId)
+        console.log(this.$refs.tree.getCheckedNodes())
+      }catch (err) {
+        console.log(err)
+      }
+    },
     // 获取当前被选中的节点
     getNodes(data, checkedNodes) {
       // 开启多选情况下，向父组件传递的是数组
@@ -60,7 +80,7 @@ export default {
         console.log(checkedNodes)
       }
     },
-    // 设置当前被选中的节点
+    // 获取树结构
     getTreeData() {
       this.$axios.get('api/getTree/',{
       }).then((response)=>{
@@ -84,6 +104,7 @@ export default {
           :data="treeData"
           :props="defaultProps"
           ref="tree"
+          node-key="id"
           accordion
           :show-checkbox="showCheckbox"
           @node-click="handleNodeClick"

@@ -38,9 +38,9 @@ export default new Router({
           component:() => import('../main_page/setting.vue')
         },
         {
-          path:'memberManager',
-          name:'memberManager',
-          component:() => import('../sys_child_page/member_manager.vue')
+          path:'projectManager',
+          name:'projectManager',
+          component:() => import('../sys_child_page/project_manager.vue')
         },
         {
           path:'partManager',

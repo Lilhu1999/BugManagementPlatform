@@ -6,16 +6,16 @@
       <el-input suffix-icon="el-icon-search" placeholder="搜索" size="small" style="float: right;width: 200px"></el-input>
     </div>
     <div>
-      <el-tabs v-model="activeName">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="进行中的项目" name="进行中的项目">
           <el-row :gutter="30">
-            <el-col :span="4" v-for="i in 6" :key="i" style="margin-bottom: 20px">
+            <el-col :span="4" v-for="item in activeProject" :key="item" style="margin-bottom: 10px">
               <el-card shadow="hover" :body-style="{ padding:'10px' }" class="point">
                 <el-image :src="require('../assets/项目默认封面.jpg')" class="card_img"></el-image>
                 <div style="padding: 5px;">
-                  <span>项目名称</span>
+                  <span>{{ item.name }}</span>
                   <div class="bottom clearfix">
-                    <span class="card_createTime">创建时间</span>
+                    <span class="card_createTime">{{ item.createTime }}</span>
                     <el-button class="el-icon-right button" type="text"></el-button>
                   </div>
                 </div>
@@ -30,9 +30,16 @@
         </el-tab-pane>
         <el-tab-pane label="已完成的项目" name="已完成的项目">
           <el-row :gutter="30">
-            <el-col :span="4" v-for="i in 10" :key="i" style="margin-bottom: 20px">
-              <el-card shadow="hover">
-                ceshi
+            <el-col :span="4" v-for="item in activeProject" :key="item" style="margin-bottom: 10px">
+              <el-card shadow="hover" :body-style="{ padding:'10px' }" class="point">
+                <el-image :src="require('../assets/项目默认封面.jpg')" class="card_img"></el-image>
+                <div style="padding: 5px;">
+                  <span>{{ item.name }}</span>
+                  <div class="bottom clearfix">
+                    <span class="card_createTime">{{ item.createTime }}</span>
+                    <el-button class="el-icon-right button" type="text"></el-button>
+                  </div>
+                </div>
               </el-card>
             </el-col>
           </el-row>
@@ -57,18 +64,41 @@
         activeName: '进行中的项目',
         dialogVisible:false,
         activeProject:[],
-        closedProject:[],
+        status:'',
       };
     },
+    mounted() {
+      this.getAllProject()
+    },
     methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
+      handleClick(el) {
+        this.activeName = el.name
+        this.getAllProject()
       },
       getVisible(val) {
         this.dialogVisible=val
       },
       setVisible() {
         this.dialogVisible = true
+      },
+      // 获取项目数据
+      getAllProject() {
+        if (this.activeName==='进行中的项目') {
+          this.status = '进行中'
+        }else {
+          this.status = '已完成'
+        }
+        this.$axios.get('api/project/info/',{
+          params:{status:this.status}
+        }).then((response)=>{
+          const res = response.data
+          if (res['respCode']==='000000'){
+            this.activeProject = res['list']
+            console.log(this.activeProject)
+          }else {
+            console.log(res['respMsg'])
+          }
+        })
       }
     }
   };

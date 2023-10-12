@@ -2,7 +2,8 @@
   <div>
     <el-dialog :visible.sync="dialogVisible">
       <template slot="title">
-        <div class="dialog_titleSty">新建项目</div>
+        <div class="dialog_titleSty" v-if="type==='add'">新建项目</div>
+        <div class="dialog_titleSty" v-else-if="type==='edit'">编辑项目</div>
         <el-divider></el-divider>
       </template>
       <el-form :model="projectData">
@@ -17,6 +18,7 @@
             <el-form-item label="项目部门">
               <SelectTree
                 :multipleType="multipleType"
+                :pickedDept="projectData.dept"
                 @getPid="getPid"
               >
               </SelectTree>
@@ -25,8 +27,9 @@
           <el-col :span="12">
             <el-form-item label="项目成员">
               <el-select
-                v-model="projectData.value"
+                v-model="projectData.member"
                 multiple
+                size="small"
               >
                 <el-option
                   v-for="item in options"
@@ -48,7 +51,8 @@
         <el-divider></el-divider>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button size="small" type="primary" @click="dialogVisible=false;sendVisible();creatProject()">创建</el-button>
+        <el-button size="small" type="primary" v-if="type==='add'" @click="dialogVisible=false;sendVisible();creatProject()">创建</el-button>
+        <el-button size="small" type="primary" v-else-if="type==='edit'" @click="dialogVisible=false;sendVisible();editProject()">确认</el-button>
         <el-button size="small" @click="dialogVisible=false;sendVisible()">取消</el-button>
       </div>
     </el-dialog>
@@ -57,9 +61,10 @@
 
 <script>
 import SelectTree from "../../sys_child_page/SelectTree.vue";
+import {data} from "autoprefixer";
 
 export default {
-  props:['vs'],
+  props:['vs','type','projectValue'],
   components: {SelectTree},
   watch:{
     vs(newValue) {
@@ -67,16 +72,31 @@ export default {
         this.dialogVisible = true
         this.multipleType = true
       }
-    }
+    },
+    type(newValue) {
+      if (newValue) {
+        this.nowType=this.type
+        console.log(this.nowType)
+      }
+    },
+    projectValue(newValue) {
+      if (newValue) {
+        this.projectData = this.projectValue
+      }
+    },
   },
   data() {
     return{
       dialogVisible:false,
       multipleType:false,
+      nowType:'',
       projectData:{
         name:'',
         desc:'',
-        value:[],
+        dept:'',
+        member:[],
+        status:'',
+        createTime:'',
       },
       options:[],
     }
@@ -87,6 +107,7 @@ export default {
     },
     // 获取子组件传递的部门ID
     getPid(id) {
+      this.projectData.dept=id
       const arr = []
       // 通过部门ID给部门成员下拉框赋值
       for (let key in id) {
@@ -107,8 +128,34 @@ export default {
       this.options = arr
     },
     creatProject() {
-
+      this.projectData.status='进行中'
+      this.projectData.createTime = new Date().toISOString().substring(0, 10)
+      this.$axios.post('api/project/add/',{
+        form:this.projectData
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.$message.success('新增成功')
+          location.reload()
+        }else {
+          this.$message.error('新增失败')
+          console.log(res['respMsg'])
+        }
+      })
     },
+    editProject() {
+      this.$axios.post('api/project/edit/',{
+        form:this.projectData
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.$message.success('编辑成功')
+        }else {
+          this.$message.error('编辑失败')
+          console.log(res['respMsg'])
+        }
+      })
+    }
   }
 }
 </script>
