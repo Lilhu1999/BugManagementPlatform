@@ -17,6 +17,7 @@
           <el-col :span="12">
             <el-form-item label="项目部门">
               <SelectTree
+                ref="selectTree"
                 :multipleType="multipleType"
                 :pickedDept="projectData.dept"
                 @getPid="getPid"
@@ -82,6 +83,8 @@ export default {
     projectValue(newValue) {
       if (newValue) {
         this.projectData = this.projectValue
+        this.$refs.selectTree.checkedNodes(eval(this.projectData.dept))
+        this.$refs.selectTree.getNodes()
       }
     },
   },

@@ -1,6 +1,6 @@
 <script>
 export default {
-  props:['multipleType','pickedDept'],
+  props:['multipleType',],
   data() {
     return {
       treeData:[],
@@ -12,7 +12,6 @@ export default {
       selectTree:[],
       value:[],
       id:[],
-      pickedId:[],
       multiple:false,
       showCheckbox:false,
     }
@@ -22,12 +21,6 @@ export default {
       if (newValue===true) {
         this.multiple=true
         this.showCheckbox=true
-      }
-    },
-    // 父组件传递的
-    pickedDept(newValue) {
-      if (newValue) {
-        this.pickedId = eval(this.pickedDept)
       }
     },
   },
@@ -50,15 +43,13 @@ export default {
         console.log(data);
       }
     },
-    // set当前选择节点
-    setCheckedKeys(keys) {
-      this.$refs.tree.setCheckedKeys(keys)
-    },
-    // 通过prop设置当前选择节点并get节点数据
-    async checkedNodes() {
+    // 执行set节点函数后，get当前选中的节点的节点数据
+    checkedNodes(keys) {
       try{
-        await this.setCheckedKeys(this.pickedId)
-        console.log(this.$refs.tree.getCheckedNodes())
+        this.$refs.tree.setCheckedKeys(keys)
+        this.$nextTick(()=>{
+          console.log(this.$refs.tree.getCheckedKeys())
+        })
       }catch (err) {
         console.log(err)
       }
@@ -69,6 +60,8 @@ export default {
       if (this.multiple) {
         const name_arr = []
         const id_arr = []
+        console.log(data)
+        console.log(checkedNodes)
         for (let key in checkedNodes.checkedNodes) {
           name_arr.push(checkedNodes.checkedNodes[key]['name'])
           id_arr.push(checkedNodes.checkedNodes[key]['id'])

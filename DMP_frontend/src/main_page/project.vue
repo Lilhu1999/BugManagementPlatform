@@ -49,6 +49,7 @@
   </el-card>
   <ProjectAddDialog
     :vs="dialogVisible"
+    :type="type"
     @getVisible="getVisible"
   ></ProjectAddDialog>
 </div>
@@ -65,6 +66,7 @@
         dialogVisible:false,
         activeProject:[],
         status:'',
+        type:'add',
       };
     },
     mounted() {
