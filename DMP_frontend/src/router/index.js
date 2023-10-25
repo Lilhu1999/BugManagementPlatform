@@ -25,7 +25,29 @@ export default new Router({
         {
           path:'project',
           name:'project',
-          component:() => import('../main_page/project.vue')
+          component:() => import('../main_page/project.vue'),
+        },
+        {
+          path: 'pj',
+          name:'pj',
+          component:()=>import('../layout/project_layout.vue'),
+          children:[
+            {
+              path:'requirement',
+              name:'requirement',
+              component:()=>import('../project_page/requirement_page.vue'),
+            },
+            {
+              path:'defect',
+              name:'defect',
+              component:()=>import('../project_page/defect_page.vue'),
+            },
+            {
+              path:'testCase',
+              name:'testCase',
+              component:()=>import('../project_page/testCase_page.vue'),
+            }
+          ]
         },
         {
           path:'message',

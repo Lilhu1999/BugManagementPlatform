@@ -16,7 +16,7 @@
                   <span>{{ item.name }}</span>
                   <div class="bottom clearfix">
                     <span class="card_createTime">{{ item.createTime }}</span>
-                    <el-button class="el-icon-right button" type="text"></el-button>
+                    <el-button class="el-icon-right button" type="text" @click="toPath(item.id)"></el-button>
                   </div>
                 </div>
               </el-card>
@@ -47,6 +47,7 @@
       </el-tabs>
     </div>
   </el-card>
+  <router-view></router-view>
   <ProjectAddDialog
     :vs="dialogVisible"
     :type="type"
@@ -73,6 +74,12 @@
       this.getAllProject()
     },
     methods: {
+      toPath(id) {
+        this.$router.push({
+          name:'pj',
+          query:{id:id},
+        })
+      },
       handleClick(el) {
         this.activeName = el.name
         this.getAllProject()
