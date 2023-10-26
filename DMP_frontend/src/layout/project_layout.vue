@@ -15,7 +15,7 @@ export default {
       console.log(key, keyPath);
     },
     saveActivePath(activePath) {
-      sessionStorage.setItem('activePath',activePath)
+      sessionStorage.setItem('id',this.projectData[0]['id'])
       this.activePath=activePath
     },
     getProjectInfo(id) {
@@ -37,30 +37,34 @@ export default {
 
 <template>
 <div>
-  <el-header>
-    <el-menu
-      :default-active="activePath"
-      class="el-menu-demo"
-      mode="horizontal"
-      @select="handleSelect"
-      >
-      <el-menu-item class="header-project-name">
-        <div>
-          <el-icon class="el-icon-s-order"></el-icon>
-          <span>{{ projectData[0].name }}</span>
-        </div>
-      </el-menu-item>
-      <el-menu-item index="/requirement" @click="saveActivePath('/requirement')">需求</el-menu-item>
-      <el-menu-item index="/defect" @click="saveActivePath('/defect')">缺陷</el-menu-item>
-      <el-menu-item index="/testCase" @click="saveActivePath('/testCase')">测试用例</el-menu-item>
-      <el-menu-item style="float: right">
-        <el-input v-model="searchInput" class="header_input" prefix-icon="el-icon-search" size="small"></el-input>
-      </el-menu-item>
-    </el-menu>
-  </el-header>
-  <el-main>
-    <router-view></router-view>
-  </el-main>
+  <el-container>
+    <el-header>
+      <el-menu
+        router
+        :default-active="activePath"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect"
+        active-text-color="#409EFF"
+        >
+        <el-menu-item class="header-project-name">
+          <div>
+            <el-icon class="el-icon-s-order"></el-icon>
+            <span>{{ projectData[0]['name'] }}</span>
+          </div>
+        </el-menu-item>
+        <el-menu-item index="/pj/requirement" @click="saveActivePath('/pj/requirement')">需求</el-menu-item>
+        <el-menu-item index="/pj/defect" @click="saveActivePath('/pj/defect')">缺陷</el-menu-item>
+        <el-menu-item index="/pj/testCase" @click="saveActivePath('/pj/testCase')">测试用例</el-menu-item>
+        <el-menu-item style="float: right">
+          <el-input v-model="searchInput" class="header_input" prefix-icon="el-icon-search" size="small"></el-input>
+        </el-menu-item>
+      </el-menu>
+    </el-header>
+    <el-main>
+      <router-view/>
+    </el-main>
+  </el-container>
 </div>
 </template>
 
