@@ -31,6 +31,7 @@ class Project(models.Model):
 
 # 缺陷表
 class Defect(models.Model):
+    pid = models.CharField(max_length=12, verbose_name='所属项目ID', null=True)
     title = models.CharField(max_length=64, verbose_name='缺陷标题')
     debug = models.CharField(max_length=512, verbose_name='复现步骤')
     belong = models.CharField(max_length=8, verbose_name='所属项目')
@@ -45,3 +46,16 @@ class Defect(models.Model):
     status = models.CharField(max_length=16, verbose_name='缺陷状态')
     videoPath = models.CharField(max_length=256, verbose_name='视频路径')
     imagePath = models.CharField(max_length=256, verbose_name='图片路径')
+
+
+# 需求表
+class Requirement(models.Model):
+    title = models.CharField(max_length=64, verbose_name='标题')
+    priority = models.CharField(max_length=16, verbose_name='优先级')
+    iteration = models.CharField(max_length=32, verbose_name='迭代')
+    state = models.CharField(max_length=32, verbose_name='状态', default='进行中')
+    handler = models.CharField(max_length=32, verbose_name='处理人')
+    start = models.CharField(max_length=32, verbose_name='预计开始')
+    end = models.CharField(max_length=32, verbose_name='预计结束')
+    desc = models.CharField(max_length=256, verbose_name='需求描述')
+    pid = models.CharField(max_length=16, verbose_name='所属项目ID')

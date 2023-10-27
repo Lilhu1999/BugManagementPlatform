@@ -3,7 +3,9 @@ export default {
   data() {
     return{
       activePath:'',
-      projectData:[],
+      projectData:[{
+        name:'',
+      }],
       searchInput:'',
     }
   },
@@ -15,7 +17,8 @@ export default {
       console.log(key, keyPath);
     },
     saveActivePath(activePath) {
-      sessionStorage.setItem('id',this.projectData[0]['id'])
+      // 将项目ID存储于会话中，命名为pid
+      sessionStorage.setItem('pid',this.projectData[0]['id'])
       this.activePath=activePath
     },
     getProjectInfo(id) {

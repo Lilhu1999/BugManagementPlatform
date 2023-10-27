@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       dialogVisible:false,
+      pid:'',
       form: {
         title:'',
         priority:'',
@@ -45,12 +46,30 @@ export default {
       if (newValue) {
         this.dialogVisible=newValue
       }
-    }
+    },
   },
   methods:{
     setVs() {
       this.$emit('getVs',false)
-    }
+    },
+    async setPid() {
+      return sessionStorage.getItem('pid')
+    },
+    // pid即所属项目ID
+    async createRequirement() {
+      let pid = await this.setPid()
+      this.$axios.post('api/project/requirement/add/',{
+        form:this.form,pid:pid
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.$message.success('新增成功')
+          this.$emit('fresh',true)
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
+    },
   },
 }
 </script>
@@ -123,8 +142,8 @@ export default {
           <el-divider></el-divider>
         </el-col>
         <el-col :span="24">
-          <el-button size="small" type="primary">创建</el-button>
-          <el-button size="small">取消</el-button>
+          <el-button size="small" type="primary" @click="createRequirement">创建</el-button>
+          <el-button size="small" @click="dialogVisible=false;setVs()">取消</el-button>
         </el-col>
       </el-row>
     </el-form>
