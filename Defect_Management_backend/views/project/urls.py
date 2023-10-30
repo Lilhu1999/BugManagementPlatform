@@ -2,7 +2,8 @@ from django.urls import path, include
 
 from Defect_Management_backend.views.project.project import project_add, project_del, project_info, project_edit
 
-from Defect_Management_backend.views.project.requirement import requirement_add, requirement_info
+from Defect_Management_backend.views.project.requirement import requirement_add, requirement_info, requirement_edit, \
+    requirement_del
 
 urlpatterns = [
     path('project/add/', project_add),
@@ -11,4 +12,6 @@ urlpatterns = [
     path('project/info/', project_info),
     path('project/requirement/add/', requirement_add),
     path('project/requirement/info/', requirement_info),
+    path('project/requirement/edit/', requirement_edit),
+    path('project/requirement/del/', requirement_del),
 ]

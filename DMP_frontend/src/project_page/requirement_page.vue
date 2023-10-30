@@ -8,6 +8,8 @@ export default {
       tableData:[],
       dialogVisible:false,
       pid:'',
+      editOrAdd:'',
+      editForm:[],
     }
   },
   created() {
@@ -38,6 +40,33 @@ export default {
         }
       })
     },
+    // 点击详情查询目标需求内容
+    getEditRequirementForm(rid) {
+      this.$axios.get('api/project/requirement/info/',{
+        params:{rid:rid}
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000'){
+          this.editForm = res['list']
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
+    },
+    // 需求删除按钮
+    delRequirement(rid) {
+      this.$axios.get('api/project/requirement/del/',{
+        params:{rid:rid}
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.$message.success('删除成功')
+          this.getRequirementInfo(this.pid)
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
+    },
   },
 }
 </script>
@@ -49,7 +78,7 @@ export default {
       type="primary"
       size="small"
       icon="el-icon-circle-plus-outline"
-      @click="dialogVisible=true"
+      @click="dialogVisible=true;editOrAdd='add'"
       >
       创建需求
     </el-button>
@@ -99,10 +128,17 @@ export default {
           label="预计结束"
           prop="end">
         </el-table-column>
+        <el-table-column
+          label="操作">
+          <div slot-scope="scope">
+            <el-button size="small" type="warning" @click="dialogVisible=true;editOrAdd='edit';getEditRequirementForm(scope.row.id)">详情</el-button>
+            <el-button size="small" type="danger" @click="delRequirement(scope.row.id)">删除</el-button>
+          </div>
+        </el-table-column>
       </el-table>
     </el-card>
   </div>
-  <RequirementAdd :vs="dialogVisible" @getVs="getVs" @fresh="fresh"></RequirementAdd>
+  <RequirementAdd :vs="dialogVisible" :ea="editOrAdd" :editForm="editForm" @getVs="getVs" @fresh="fresh"></RequirementAdd>
 </div>
 </template>
 

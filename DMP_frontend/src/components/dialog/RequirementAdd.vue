@@ -1,11 +1,21 @@
 <script>
 export default {
-  props:['vs'],
+  props:['vs','ea','editForm'], //vs=>dialogVisible; ea=>editOrAdd
   data() {
     return {
       dialogVisible:false,
       pid:'',
       form: {
+        title:'',
+        priority:'',
+        iteration:'',
+        state:'',
+        handler:'',
+        start:'',
+        end:'',
+        desc:'',
+      },
+      defaultFrom:{
         title:'',
         priority:'',
         iteration:'',
@@ -47,10 +57,18 @@ export default {
         this.dialogVisible=newValue
       }
     },
+    editForm(newValue) {
+      if (newValue !== []) {
+        this.form = newValue[0]
+      }else {
+        console.log(1)
+      }
+    }
   },
   methods:{
     setVs() {
       this.$emit('getVs',false)
+      this.form = this.defaultFrom
     },
     async setPid() {
       return sessionStorage.getItem('pid')
@@ -64,6 +82,19 @@ export default {
         const res = response.data
         if (res['respCode']==='000000') {
           this.$message.success('新增成功')
+          this.$emit('fresh',true)
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
+    },
+    editRequirement(rid) {
+      this.$axios.post('api/project/requirement/edit/',{
+        form:this.form,rid:rid
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.$message.success('修改成功')
           this.$emit('fresh',true)
         }else {
           this.$message.error(res['respMsg'])
@@ -130,10 +161,10 @@ export default {
                 <el-input v-model="form.handler" size="small" class="right_input_width"></el-input>
               </el-form-item>
               <el-form-item label="预计开始">
-                <el-date-picker v-model="form.start" type="date" size="small" class="right_input_width"></el-date-picker>
+                <el-date-picker value-format="yyyy-MM-dd" v-model="form.start" type="date" size="small" class="right_input_width"></el-date-picker>
               </el-form-item>
               <el-form-item label="预计结束">
-                <el-date-picker v-model="form.end" type="date" size="small" class="right_input_width"></el-date-picker>
+                <el-date-picker value-format="yyyy-MM-dd" v-model="form.end" type="date" size="small" class="right_input_width"></el-date-picker>
               </el-form-item>
             </div>
           </div>
@@ -142,7 +173,8 @@ export default {
           <el-divider></el-divider>
         </el-col>
         <el-col :span="24">
-          <el-button size="small" type="primary" @click="createRequirement">创建</el-button>
+          <el-button size="small" type="primary" v-if="this.ea==='add'" @click="dialogVisible=false;createRequirement();setVs()">创建</el-button>
+          <el-button size="small" type="primary" v-else-if="this.ea==='edit'" @click="dialogVisible=false;editRequirement(form.id);setVs()">修改</el-button>
           <el-button size="small" @click="dialogVisible=false;setVs()">取消</el-button>
         </el-col>
       </el-row>
