@@ -10,6 +10,20 @@ export default {
       pid:'',
       editOrAdd:'',
       editForm:[],
+      stateSelectValue:'',
+      stateOption:[{
+        value: '未开始',
+        label: '未开始'
+      }, {
+        value: '进行中',
+        label: '进行中'
+      }, {
+        value: '已完成',
+        label: '已完成'
+      }, {
+        value: '已延期',
+        label: '已延期'
+      }]
     }
   },
   created() {
@@ -67,6 +81,19 @@ export default {
         }
       })
     },
+    // 更新需求状态
+    stateChange(rid,newState) {
+      this.$axios.post('api/project/requirement/updateState/',{
+        rid:rid,newState:newState
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.getRequirementInfo(this.pid)
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
+    },
   },
 }
 </script>
@@ -115,6 +142,11 @@ export default {
         <el-table-column
           label="状态"
           prop="state">
+          <template slot-scope="scope">
+            <el-select v-model="scope.row.state" @change="stateChange(scope.row.id,scope.row.state)" size="small">
+              <el-option v-for="item in stateOption" :key="item.value" :value="item.value" :label="item.label"></el-option>
+            </el-select>
+          </template>
         </el-table-column>
         <el-table-column
           label="处理人"
@@ -146,5 +178,9 @@ export default {
 .el-table {
   display: flex;
   flex-direction: column;
+}
+/deep/ .el-select .el-input__inner {
+    border-radius: 60px;
+    width: 100px;
 }
 </style>

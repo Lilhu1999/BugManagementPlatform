@@ -81,3 +81,20 @@ def requirement_del(request):
         response['respCode'] = '000000'
         response['respMsg'] = str(e)
     return JsonResponse(response)
+
+
+# 修改状态接口
+@csrf_exempt
+@require_http_methods(['POST'])
+def requirement_update_state(request):
+    response = {}
+    try:
+        rid = json.loads(request.body)['rid']
+        state = json.loads(request.body)['newState']
+        Requirement.objects.filter(id=rid).update(state=state)
+        response['respCode'] = '000000'
+        response['respMsg'] = 'success'
+    except Exception as e:
+        response['respCode'] = '999999'
+        response['respMsg'] = str(e)
+    return JsonResponse(response)
