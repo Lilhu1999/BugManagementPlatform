@@ -93,7 +93,7 @@ export default {
   </div>
   <div>
     <el-card>
-      <el-table :data="tableData" style="width: 100%;min-height: 65vh">
+      <el-table :data="tableData" max-height="70vh" style="width: 100%;min-height: 65vh">
         <el-table-column
           label="#"
           type="index"
@@ -143,5 +143,8 @@ export default {
 </template>
 
 <style scoped>
-
+.el-table {
+  display: flex;
+  flex-direction: column;
+}
 </style>

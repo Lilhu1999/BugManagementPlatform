@@ -60,15 +60,15 @@ export default {
     editForm(newValue) {
       if (newValue !== []) {
         this.form = newValue[0]
-      }else {
-        console.log(1)
       }
     }
   },
   methods:{
     setVs() {
       this.$emit('getVs',false)
-      this.form = this.defaultFrom
+    },
+    resetFrom() {
+      this.form = Object.assign({},this.form,this.defaultFrom)
     },
     async setPid() {
       return sessionStorage.getItem('pid')
@@ -83,6 +83,7 @@ export default {
         if (res['respCode']==='000000') {
           this.$message.success('新增成功')
           this.$emit('fresh',true)
+          this.resetFrom()
         }else {
           this.$message.error(res['respMsg'])
         }
@@ -96,6 +97,7 @@ export default {
         if (res['respCode']==='000000') {
           this.$message.success('修改成功')
           this.$emit('fresh',true)
+          this.resetFrom()
         }else {
           this.$message.error(res['respMsg'])
         }
@@ -107,9 +109,10 @@ export default {
 
 <template>
 <div>
-  <el-dialog :visible="dialogVisible" width="80%" destroy-on-close @close="dialogVisible = false;setVs()">
+  <el-dialog :visible="dialogVisible" width="80%" @close="dialogVisible = false;setVs();resetFrom()">
     <div slot="title">
-      <span>创建工作项</span>
+      <span v-if="ea==='add'">创建工作项</span>
+      <span v-else-if="ea==='edit'">修改工作项</span>
       <el-divider style="margin: 24px 0 0 0"></el-divider>
     </div>
     <el-form v-model="form">
@@ -175,7 +178,7 @@ export default {
         <el-col :span="24">
           <el-button size="small" type="primary" v-if="this.ea==='add'" @click="dialogVisible=false;createRequirement();setVs()">创建</el-button>
           <el-button size="small" type="primary" v-else-if="this.ea==='edit'" @click="dialogVisible=false;editRequirement(form.id);setVs()">修改</el-button>
-          <el-button size="small" @click="dialogVisible=false;setVs()">取消</el-button>
+          <el-button size="small" @click="dialogVisible=false;setVs();resetFrom()">取消</el-button>
         </el-col>
       </el-row>
     </el-form>
