@@ -179,8 +179,4 @@ export default {
   display: flex;
   flex-direction: column;
 }
-/deep/ .el-select .el-input__inner {
-    border-radius: 60px;
-    width: 100px;
-}
 </style>

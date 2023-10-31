@@ -11,8 +11,9 @@ export default {
         iteration:'',
         state:'',
         handler:'',
-        start:'',
-        end:'',
+        creator:'',
+        importance:'',
+        createTime:'',
         desc:'',
       },
       defaultFrom:{
@@ -21,8 +22,9 @@ export default {
         iteration:'',
         state:'',
         handler:'',
-        start:'',
-        end:'',
+        creator:'',
+        importance:'',
+        createTime:'',
         desc:'',
       },
       iterationOption:[
@@ -48,7 +50,22 @@ export default {
           value: '低',
           label: '低',
         }
-      ]
+      ],
+      importanceOption:[
+        {
+          value: '致命',
+          label: '致命',
+        },{
+          value: '严重',
+          label: '严重',
+        },{
+          value: '一般',
+          label: '一般',
+        },{
+          value: '建议',
+          label: '建议',
+        }
+      ],
     }
   },
   watch:{
@@ -75,9 +92,9 @@ export default {
       return sessionStorage.getItem('pid')
     },
     // pid即所属项目ID
-    async createRequirement() {
+    async createDefect() {
       let pid = await this.setPid()
-      this.$axios.post('api/project/requirement/add/',{
+      this.$axios.post('api/project/defect/add/',{
         form:this.form,pid:pid
       }).then((response)=>{
         const res = response.data
@@ -90,8 +107,8 @@ export default {
         }
       })
     },
-    editRequirement(rid) {
-      this.$axios.post('api/project/requirement/edit/',{
+    editDefect(rid) {
+      this.$axios.post('api/project/defect/edit/',{
         form:this.form,rid:rid
       }).then((response)=>{
         const res = response.data
@@ -112,8 +129,8 @@ export default {
 <div>
   <el-dialog :visible="dialogVisible" width="80%" @close="dialogVisible = false;setVs();">
     <div slot="title">
-      <span v-if="ea==='add'">创建工作项</span>
-      <span v-else-if="ea==='edit'">修改工作项</span>
+      <span v-if="ea==='add'">创建缺陷</span>
+      <span v-else-if="ea==='edit'">修改缺陷</span>
       <el-divider style="margin: 24px 0 0 0"></el-divider>
     </div>
     <el-form v-model="form">
@@ -130,7 +147,7 @@ export default {
             </div>
             <div>
               <el-form-item>
-                <el-input v-model="form.desc" type="textarea" :rows="10" placeholder="请输入内容" class="desc_input"></el-input>
+                <el-input v-model="form.desc" type="textarea" :rows="10" placeholder="请输入复现步骤" class="desc_input"></el-input>
               </el-form-item>
             </div>
           </div>
@@ -151,6 +168,16 @@ export default {
                   </el-option>
                 </el-select>
               </el-form-item>
+              <el-form-item label="严重程度">
+                <el-select v-model="form.importance" size="small" class="right_input_width">
+                  <el-option
+                    v-for="item in importanceOption"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
               <el-form-item label="优先级">
                 <el-select v-model="form.priority" size="small" class="right_input_width">
                   <el-option
@@ -164,11 +191,8 @@ export default {
               <el-form-item label="处理人">
                 <el-input v-model="form.handler" size="small" class="right_input_width"></el-input>
               </el-form-item>
-              <el-form-item label="预计开始">
-                <el-date-picker value-format="yyyy-MM-dd" v-model="form.start" type="date" size="small" class="right_input_width"></el-date-picker>
-              </el-form-item>
-              <el-form-item label="预计结束">
-                <el-date-picker value-format="yyyy-MM-dd" v-model="form.end" type="date" size="small" class="right_input_width"></el-date-picker>
+              <el-form-item label="创建人">
+                <el-input v-model="form.creator" size="small" class="right_input_width"></el-input>
               </el-form-item>
             </div>
           </div>
@@ -177,8 +201,8 @@ export default {
           <el-divider></el-divider>
         </el-col>
         <el-col :span="24">
-          <el-button size="small" type="primary" v-if="this.ea==='add'" @click="dialogVisible=false;createRequirement();setVs()">创建</el-button>
-          <el-button size="small" type="primary" v-else-if="this.ea==='edit'" @click="dialogVisible=false;editRequirement(form.id);setVs()">修改</el-button>
+          <el-button size="small" type="primary" v-if="this.ea==='add'" @click="dialogVisible=false;createDefect();setVs()">创建</el-button>
+          <el-button size="small" type="primary" v-else-if="this.ea==='edit'" @click="dialogVisible=false;editDefect(form.id);setVs()">修改</el-button>
           <el-button size="small" @click="dialogVisible=false;setVs();resetFrom()">取消</el-button>
         </el-col>
       </el-row>

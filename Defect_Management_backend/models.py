@@ -1,4 +1,5 @@
 from django.db import models
+import time
 
 
 # Create your models here.
@@ -33,17 +34,18 @@ class Project(models.Model):
 class Defect(models.Model):
     pid = models.CharField(max_length=12, verbose_name='所属项目ID', null=True)
     title = models.CharField(max_length=64, verbose_name='缺陷标题')
-    debug = models.CharField(max_length=512, verbose_name='复现步骤')
-    belong = models.CharField(max_length=8, verbose_name='所属项目')
+    desc = models.CharField(max_length=512, verbose_name='复现步骤')
+    iteration = models.CharField(max_length=32, verbose_name='迭代', null=True)
     # 严重程度：致命/严重/一般/建议
     importance = models.CharField(max_length=16, verbose_name='严重程度')
     # 优先级：紧急/高/中/低
     priority = models.CharField(max_length=16, verbose_name='优先级')
-    createTime = models.DateField(verbose_name='创建时间')
-    createPerson = models.CharField(max_length=16, verbose_name='创建人')
-    dealPerson = models.CharField(max_length=16, verbose_name='处理人')
+    createTime = models.CharField(max_length=64, verbose_name='创建时间',
+                                  default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
+    creator = models.CharField(max_length=16, verbose_name='创建人')
+    handler = models.CharField(max_length=16, verbose_name='处理人')
     # 状态：待修复/已修复/重新打开/关闭
-    status = models.CharField(max_length=16, verbose_name='缺陷状态')
+    state = models.CharField(max_length=16, verbose_name='缺陷状态', default='进行中')
     videoPath = models.CharField(max_length=256, verbose_name='视频路径')
     imagePath = models.CharField(max_length=256, verbose_name='图片路径')
 
