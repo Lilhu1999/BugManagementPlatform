@@ -11,6 +11,7 @@ export default {
       editOrAdd:'',
       editForm:[],
       selectValue:'',
+      type:'',
       option:[
         {
         value: '正常',
@@ -24,7 +25,27 @@ export default {
       }, {
         value: '延期',
         label: '延期'
-      }]
+      }],
+      typeOption:[
+        {
+          value: '功能测试',
+          label: '功能测试',
+        },{
+          value: '性能测试',
+          label: '性能测试',
+        },{
+          value: '安全测试',
+          label: '安全测试',
+        },{
+          value: '兼容性测试',
+          label: '兼容性测试',
+        },{
+          value: '界面测试',
+          label: '界面测试',
+        },{
+          value: '场景测试',
+          label: '场景测试',
+        }]
     }
   },
   created() {
@@ -42,7 +63,7 @@ export default {
         this.getTestCaseInfo(this.pid)
       }
     },
-    // 通过session内存储的项目ID获取需求列表
+    // 通过session内存储的项目ID获取用例列表
     getTestCaseInfo(pid) {
       this.$axios.get('api/project/testcase/info/',{
         params:{pid:pid}
@@ -95,6 +116,23 @@ export default {
         }
       })
     },
+    // 用例类型搜索功能
+    searchTestCaseType(pid) {
+      this.$axios.get('api/project/testcase/info/',{
+        params:{pid:pid,type:this.type}
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000'){
+          this.tableData=res['list']
+        }else {
+          console.log(res['respMsg']);
+        }
+      })
+    },
+    // 重置页面数据
+    clearTypeSelect() {
+      this.getTestCaseInfo(this.pid)
+    }
   },
 }
 </script>
@@ -117,6 +155,11 @@ export default {
         <el-dropdown-item icon="el-icon-download">导出用例</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
+    <div class="search_input">
+      <el-select clearable v-model="type" size="small" placeholder="选择用例类型进行搜索" @change="searchTestCaseType(pid)" @clear="clearTypeSelect">
+        <el-option v-for="item in typeOption" :value="item.value" :label="item.label" :key="item.value"></el-option>
+      </el-select>
+    </div>
   </div>
   <div>
     <el-card>
@@ -176,5 +219,8 @@ export default {
 .el-table {
   display: flex;
   flex-direction: column;
+}
+.search_input {
+  float: right;
 }
 </style>

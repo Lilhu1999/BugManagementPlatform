@@ -117,8 +117,8 @@ export default {
 <div>
   <el-dialog :visible="dialogVisible" width="80%" @close="dialogVisible = false;setVs();">
     <div slot="title">
-      <span v-if="ea==='add'">创建缺陷</span>
-      <span v-else-if="ea==='edit'">修改缺陷</span>
+      <span v-if="ea==='add'">创建用例</span>
+      <span v-else-if="ea==='edit'">修改用例</span>
       <el-divider style="margin: 24px 0 0 0"></el-divider>
     </div>
     <el-form v-model="form">
