@@ -4,20 +4,19 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from Defect_Management_backend.models import Defect
+from Defect_Management_backend.models import TestCase
 
 
 # 新增需求接口
 @csrf_exempt
 @require_http_methods(['POST'])
-def defect_add(request):
+def test_case_add(request):
     response = {}
     try:
         form = json.loads(request.body)['form']
         pid = json.loads(request.body)['pid']  # 项目ID
-        Defect.objects.create(title=form['title'], priority=form['priority'], iteration=form['iteration'],
-                              handler=form['handler'], creator=form['creator'],
-                              desc=form['desc'], importance=form['importance'], pid=pid)
+        TestCase.objects.create(title=form['title'], type=form['type'], level=form['level'],
+                                creator=form['creator'], desc=form['desc'], pid=pid)
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
     except Exception as e:
@@ -29,15 +28,15 @@ def defect_add(request):
 # 查询接口
 @csrf_exempt
 @require_http_methods(['GET'])
-def defect_info(request):
+def test_case_info(request):
     response = {}
     try:
         pid = request.GET.get('pid')  # 项目ID
-        rid = request.GET.get('rid')  # 缺陷ID
+        rid = request.GET.get('rid')  # 用例ID
         if pid:
-            info = Defect.objects.filter(pid=pid).values()
+            info = TestCase.objects.filter(pid=pid).values()
         else:
-            info = Defect.objects.filter(id=rid).values()
+            info = TestCase.objects.filter(id=rid).values()
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
         response['list'] = list(info)
@@ -50,15 +49,13 @@ def defect_info(request):
 # 修改接口
 @csrf_exempt
 @require_http_methods(['POST'])
-def defect_edit(request):
+def test_case_edit(request):
     response = {}
     try:
-        rid = json.loads(request.body)['rid']  # 缺陷ID
+        rid = json.loads(request.body)['rid']  # 用例ID
         form = json.loads(request.body)['form']
-        Defect.objects.filter(id=rid).update(title=form['title'], priority=form['priority'],
-                                             iteration=form['iteration'], importance=form['importance'],
-                                             handler=form['handler'], creator=form['creator'],
-                                             desc=form['desc'])
+        TestCase.objects.filter(id=rid).update(title=form['title'], type=form['type'], level=form['level'],
+                                               creator=form['creator'], desc=form['desc'])
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
     except Exception as e:
@@ -70,11 +67,11 @@ def defect_edit(request):
 # 删除接口
 @csrf_exempt
 @require_http_methods(['GET'])
-def defect_del(request):
+def test_case_del(request):
     response = {}
     try:
-        rid = request.GET.get('rid')  # 缺陷ID
-        Defect.objects.filter(id=rid).delete()
+        rid = request.GET.get('rid')  # 用例ID
+        TestCase.objects.filter(id=rid).delete()
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
     except Exception as e:
@@ -86,12 +83,12 @@ def defect_del(request):
 # 修改状态接口
 @csrf_exempt
 @require_http_methods(['POST'])
-def defect_update_state(request):
+def test_case_update_state(request):
     response = {}
     try:
-        rid = json.loads(request.body)['rid']  # 缺陷ID
+        rid = json.loads(request.body)['rid']  # 用例ID
         state = json.loads(request.body)['newState']
-        Defect.objects.filter(id=rid).update(state=state)
+        TestCase.objects.filter(id=rid).update(state=state)
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
     except Exception as e:

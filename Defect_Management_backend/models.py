@@ -61,3 +61,16 @@ class Requirement(models.Model):
     end = models.CharField(max_length=32, verbose_name='预计结束')
     desc = models.CharField(max_length=256, verbose_name='需求描述')
     pid = models.CharField(max_length=16, verbose_name='所属项目ID')
+
+
+# 用例表
+class TestCase(models.Model):
+    title = models.CharField(max_length=64, verbose_name='标题')
+    type = models.CharField(max_length=16, verbose_name='用例类型')
+    level = models.CharField(max_length=16, verbose_name='用例等级', null=True)
+    state = models.CharField(max_length=32, verbose_name='用例状态', default='正常')
+    creator = models.CharField(max_length=32, verbose_name='创建人')
+    createTime = models.CharField(max_length=64, verbose_name='创建时间',
+                                  default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
+    desc = models.CharField(max_length=256, verbose_name='用例步骤')
+    pid = models.CharField(max_length=16, verbose_name='所属项目ID')
