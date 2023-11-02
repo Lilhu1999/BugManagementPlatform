@@ -35,10 +35,10 @@
               项目
             </div>
           </el-menu-item>
-          <el-menu-item index="/message" @click="saveActivePath('/message')">
-            <i class="el-icon-bell el_menu_i_sty"></i>
+          <el-menu-item index="/autoTest" @click="saveActivePath('/autoTest')">
+            <i class="el-icon-cpu el_menu_i_sty"></i>
             <div class="el_menu_text_sty">
-              消息
+              自动化
             </div>
           </el-menu-item>
           <el-menu-item index="/setting" @click="saveActivePath('/setting')">

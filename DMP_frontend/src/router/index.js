@@ -50,9 +50,9 @@ export default new Router({
           ]
         },
         {
-          path:'message',
-          name:'message',
-          component:() => import('../main_page/message.vue')
+          path:'autoTest',
+          name:'autoTest',
+          component:() => import('../main_page/autoTest.vue')
         },
         {
           path:'setting',

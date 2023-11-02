@@ -182,6 +182,11 @@ export default {
         <el-table-column
           label="用例等级"
           prop="level">
+          <div slot-scope="scope">
+            <el-tag effect="dark" v-if="scope.row.level==='高'" type="danger" size="small">{{ scope.row.level }}</el-tag>
+            <el-tag effect="dark" v-else-if="scope.row.level==='中'" type="success" size="small">{{ scope.row.level }}</el-tag>
+            <el-tag effect="dark" v-else type="info" size="small">{{ scope.row.level }}</el-tag>
+          </div>
         </el-table-column>
         <el-table-column
           label="用例状态"

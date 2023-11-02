@@ -36,16 +36,13 @@ class Defect(models.Model):
     title = models.CharField(max_length=64, verbose_name='缺陷标题')
     desc = models.CharField(max_length=512, verbose_name='复现步骤')
     iteration = models.CharField(max_length=32, verbose_name='迭代', null=True)
-    # 严重程度：致命/严重/一般/建议
-    importance = models.CharField(max_length=16, verbose_name='严重程度')
-    # 优先级：紧急/高/中/低
-    priority = models.CharField(max_length=16, verbose_name='优先级')
+    importance = models.CharField(max_length=16, verbose_name='严重程度')  # 严重程度：致命/严重/一般/建议
+    priority = models.CharField(max_length=16, verbose_name='优先级')   # 优先级：紧急/高/中/低
     createTime = models.CharField(max_length=64, verbose_name='创建时间',
                                   default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
     creator = models.CharField(max_length=16, verbose_name='创建人')
     handler = models.CharField(max_length=16, verbose_name='处理人')
-    # 状态：待修复/已修复/重新打开/关闭
-    state = models.CharField(max_length=16, verbose_name='缺陷状态', default='进行中')
+    state = models.CharField(max_length=16, verbose_name='缺陷状态', default='进行中')  # 状态：待修复/已修复/重新打开/关闭
     videoPath = models.CharField(max_length=256, verbose_name='视频路径')
     imagePath = models.CharField(max_length=256, verbose_name='图片路径')
 
@@ -53,8 +50,8 @@ class Defect(models.Model):
 # 需求表
 class Requirement(models.Model):
     title = models.CharField(max_length=64, verbose_name='标题')
-    priority = models.CharField(max_length=16, verbose_name='优先级')
-    iteration = models.CharField(max_length=32, verbose_name='迭代')
+    priority = models.CharField(max_length=16, verbose_name='优先级')  # 紧急/高/中/低
+    iteration = models.CharField(max_length=32, verbose_name='迭代')  # 暂时写死了
     state = models.CharField(max_length=32, verbose_name='状态', default='进行中')
     handler = models.CharField(max_length=32, verbose_name='处理人')
     start = models.CharField(max_length=32, verbose_name='预计开始')
@@ -67,7 +64,7 @@ class Requirement(models.Model):
 class TestCase(models.Model):
     title = models.CharField(max_length=64, verbose_name='标题')
     type = models.CharField(max_length=16, verbose_name='用例类型')
-    level = models.CharField(max_length=16, verbose_name='用例等级', null=True)
+    level = models.CharField(max_length=16, verbose_name='用例等级', null=True)  # 高/中/低
     state = models.CharField(max_length=32, verbose_name='用例状态', default='正常')
     creator = models.CharField(max_length=32, verbose_name='创建人')
     createTime = models.CharField(max_length=64, verbose_name='创建时间',

@@ -134,10 +134,22 @@ export default {
         <el-table-column
           label="优先级"
           prop="priority">
+          <div slot-scope="scope">
+            <el-tag effect="dark" v-if="scope.row.priority==='紧急'" type="danger" size="small">{{ scope.row.priority }}</el-tag>
+            <el-tag effect="dark" v-else-if="scope.row.priority==='高'" type="warning" size="small">{{ scope.row.priority }}</el-tag>
+            <el-tag effect="dark" v-else-if="scope.row.priority==='中'" type="success" size="small">{{ scope.row.priority }}</el-tag>
+            <el-tag effect="dark" v-else type="info" size="small">{{ scope.row.priority }}</el-tag>
+          </div>
         </el-table-column>
         <el-table-column
           label="严重程度"
           prop="importance">
+          <div slot-scope="scope">
+            <el-tag effect="dark" v-if="scope.row.importance==='致命'" type="danger" size="small">{{ scope.row.importance }}</el-tag>
+            <el-tag effect="dark" v-else-if="scope.row.importance==='严重'" type="warning" size="small">{{ scope.row.importance }}</el-tag>
+            <el-tag effect="dark" v-else-if="scope.row.importance==='一般'" type="success" size="small">{{ scope.row.importance }}</el-tag>
+            <el-tag effect="dark" v-else type="info" size="small">{{ scope.row.importance }}</el-tag>
+          </div>
         </el-table-column>
         <el-table-column
           label="迭代"
