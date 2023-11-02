@@ -37,7 +37,7 @@ class Defect(models.Model):
     desc = models.CharField(max_length=512, verbose_name='复现步骤')
     iteration = models.CharField(max_length=32, verbose_name='迭代', null=True)
     importance = models.CharField(max_length=16, verbose_name='严重程度')  # 严重程度：致命/严重/一般/建议
-    priority = models.CharField(max_length=16, verbose_name='优先级')   # 优先级：紧急/高/中/低
+    priority = models.CharField(max_length=16, verbose_name='优先级')  # 优先级：紧急/高/中/低
     createTime = models.CharField(max_length=64, verbose_name='创建时间',
                                   default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
     creator = models.CharField(max_length=16, verbose_name='创建人')
@@ -58,6 +58,7 @@ class Requirement(models.Model):
     end = models.CharField(max_length=32, verbose_name='预计结束')
     desc = models.CharField(max_length=256, verbose_name='需求描述')
     pid = models.CharField(max_length=16, verbose_name='所属项目ID')
+    connectionCase = models.CharField(max_length=128, verbose_name='关联的用例', null=True)
 
 
 # 用例表
@@ -71,3 +72,4 @@ class TestCase(models.Model):
                                   default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
     desc = models.CharField(max_length=256, verbose_name='用例步骤')
     pid = models.CharField(max_length=16, verbose_name='所属项目ID')
+    connectionDefect = models.CharField(max_length=128, verbose_name='关联的缺陷', null=True)

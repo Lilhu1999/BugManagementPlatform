@@ -1,12 +1,14 @@
 <script>
 import DefectDialog from "../components/dialog/DefectDialog.vue";
+import LinkDialog from "../components/dialog/LinkDialog.vue";
 
 export default {
-  components: {DefectDialog},
+  components: {LinkDialog, DefectDialog},
   data(){
     return{
       tableData:[],
       dialogVisible:false,
+      linkDialogVisible:false,
       pid:'',
       editOrAdd:'',
       editForm:[],
@@ -34,6 +36,9 @@ export default {
     // 父组件接收到子组件val时，关闭dialog
     getVs(val) {
       this.dialogVisible=val
+    },
+    getLinkDialogVs(val) {
+      this.linkDialogVisible =val
     },
     // 父组件接收到子组件传递的val时，触发搜索页面数据操作
     fresh(val){
@@ -94,6 +99,11 @@ export default {
         }
       })
     },
+    dropdownCommand(command) {
+      if (command==='link') {
+        this.linkDialogVisible=true
+      }
+    },
   },
 }
 </script>
@@ -109,17 +119,22 @@ export default {
       >
       创建缺陷
     </el-button>
-    <el-dropdown>
+    <el-dropdown @command="dropdownCommand">
       <el-button type="primary" plain size="small">更多操作<i class="el-icon-arrow-down el-icon--right"></i></el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item icon="el-icon-upload2">导入缺陷</el-dropdown-item>
         <el-dropdown-item icon="el-icon-download">导出缺陷</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-link" command="link">关联用例</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
   <div>
     <el-card>
       <el-table :data="tableData" max-height="70vh" style="width: 100%;min-height: 65vh">
+        <el-table-column
+          type="selection"
+          width="50">
+        </el-table-column>
         <el-table-column
           label="#"
           type="index"
@@ -187,6 +202,7 @@ export default {
       </el-table>
     </el-card>
   </div>
+  <LinkDialog :vs="linkDialogVisible" :type="'testCase'" @getLinkDialogVs="getLinkDialogVs"></LinkDialog>
   <DefectDialog :vs="dialogVisible" :ea="editOrAdd" :editForm="editForm" @getVs="getVs" @fresh="fresh"></DefectDialog>
 </div>
 </template>

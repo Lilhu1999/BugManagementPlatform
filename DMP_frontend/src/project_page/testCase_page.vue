@@ -1,12 +1,14 @@
 <script>
 import TestCaseDialog from "../components/dialog/TestCaseDialog.vue";
+import LinkDialog from "../components/dialog/LinkDialog.vue";
 
 export default {
-  components: {TestCaseDialog},
+  components: {LinkDialog, TestCaseDialog},
   data(){
     return{
       tableData:[],
       dialogVisible:false,
+      linkDialogVisible:false,
       pid:'',
       editOrAdd:'',
       editForm:[],
@@ -56,6 +58,9 @@ export default {
     // 父组件接收到子组件val时，关闭dialog
     getVs(val) {
       this.dialogVisible=val
+    },
+    getLinkDialogVs(val) {
+      this.linkDialogVisible=val
     },
     // 父组件接收到子组件传递的val时，触发搜索页面数据操作
     fresh(val){
@@ -132,7 +137,12 @@ export default {
     // 重置页面数据
     clearTypeSelect() {
       this.getTestCaseInfo(this.pid)
-    }
+    },
+    dropdownCommand(command) {
+      if (command==='link') {
+        this.linkDialogVisible=true
+      }
+    },
   },
 }
 </script>
@@ -148,11 +158,12 @@ export default {
       >
       创建用例
     </el-button>
-    <el-dropdown>
+    <el-dropdown @command="dropdownCommand">
       <el-button type="primary" plain size="small">更多操作<i class="el-icon-arrow-down el-icon--right"></i></el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item icon="el-icon-upload2">导入用例</el-dropdown-item>
         <el-dropdown-item icon="el-icon-download">导出用例</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-link" command="link">关联需求</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <div class="search_input">
@@ -164,6 +175,10 @@ export default {
   <div>
     <el-card>
       <el-table :data="tableData" max-height="70vh" style="width: 100%;min-height: 65vh">
+        <el-table-column
+          type="selection"
+          width="50">
+        </el-table-column>
         <el-table-column
           label="#"
           type="index"
@@ -216,6 +231,7 @@ export default {
       </el-table>
     </el-card>
   </div>
+  <LinkDialog :vs="linkDialogVisible" :type="'requirement'" @getLinkDialogVs="getLinkDialogVs"></LinkDialog>
   <TestCaseDialog :vs="dialogVisible" :ea="editOrAdd" :editForm="editForm" @getVs="getVs" @fresh="fresh"></TestCaseDialog>
 </div>
 </template>
