@@ -98,3 +98,21 @@ def defect_update_state(request):
         response['respCode'] = '999999'
         response['respMsg'] = str(e)
     return JsonResponse(response)
+
+
+# 绑定需求功能
+@csrf_exempt
+@require_http_methods(['POST'])
+def link_test_case(request):
+    response = {}
+    try:
+        rid = json.loads(request.body)['rid']
+        defect_arr = json.loads(request.body)['selection']
+        for i in defect_arr:
+            Defect.objects.filter(id=i).update(linkId=rid)
+        response['respCode'] = '000000'
+        response['respMsg'] = 'success'
+    except Exception as e:
+        response['respCode'] = '999999'
+        response['respMsg'] = str(e)
+    return JsonResponse(response)

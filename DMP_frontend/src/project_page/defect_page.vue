@@ -7,6 +7,7 @@ export default {
   data(){
     return{
       tableData:[],
+      selectionArr:[],
       dialogVisible:false,
       linkDialogVisible:false,
       pid:'',
@@ -101,8 +102,15 @@ export default {
     },
     dropdownCommand(command) {
       if (command==='link') {
-        this.linkDialogVisible=true
+        if (this.selectionArr[0]) {
+          this.linkDialogVisible=true
+        }else {
+          this.$message.info('请勾选需要进行绑定操作的缺陷')
+        }
       }
+    },
+    selectionChange(selection)  {
+      this.selectionArr = selection
     },
   },
 }
@@ -130,7 +138,7 @@ export default {
   </div>
   <div>
     <el-card>
-      <el-table :data="tableData" max-height="70vh" style="width: 100%;min-height: 65vh">
+      <el-table :data="tableData" max-height="70vh" style="width: 100%;min-height: 65vh" @selection-change="selectionChange">
         <el-table-column
           type="selection"
           width="50">
@@ -202,7 +210,7 @@ export default {
       </el-table>
     </el-card>
   </div>
-  <LinkDialog :vs="linkDialogVisible" :type="'testCase'" @getLinkDialogVs="getLinkDialogVs"></LinkDialog>
+  <LinkDialog :vs="linkDialogVisible" :type="'testCase'" :selectionArr="this.selectionArr" @getLinkDialogVs="getLinkDialogVs"></LinkDialog>
   <DefectDialog :vs="dialogVisible" :ea="editOrAdd" :editForm="editForm" @getVs="getVs" @fresh="fresh"></DefectDialog>
 </div>
 </template>

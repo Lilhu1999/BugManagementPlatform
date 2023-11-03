@@ -45,6 +45,7 @@ class Defect(models.Model):
     state = models.CharField(max_length=16, verbose_name='缺陷状态', default='进行中')  # 状态：待修复/已修复/重新打开/关闭
     videoPath = models.CharField(max_length=256, verbose_name='视频路径')
     imagePath = models.CharField(max_length=256, verbose_name='图片路径')
+    linkId = models.CharField(max_length=8, verbose_name='绑定用例ID', null=True)
 
 
 # 需求表
@@ -58,7 +59,6 @@ class Requirement(models.Model):
     end = models.CharField(max_length=32, verbose_name='预计结束')
     desc = models.CharField(max_length=256, verbose_name='需求描述')
     pid = models.CharField(max_length=16, verbose_name='所属项目ID')
-    connectionCase = models.CharField(max_length=128, verbose_name='关联的用例', null=True)
 
 
 # 用例表
@@ -72,4 +72,4 @@ class TestCase(models.Model):
                                   default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
     desc = models.CharField(max_length=256, verbose_name='用例步骤')
     pid = models.CharField(max_length=16, verbose_name='所属项目ID')
-    connectionDefect = models.CharField(max_length=128, verbose_name='关联的缺陷', null=True)
+    linkId = models.CharField(max_length=8, verbose_name='绑定需求ID', null=True)

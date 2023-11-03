@@ -1,9 +1,10 @@
 <script>
 export default {
-  props:['vs', 'type'],
+  props:['vs', 'type', 'selectionArr'],
   data() {
     return {
       tableData:[],
+      selection:[],
       pid:'',
       dialogVisible:false,
     }
@@ -15,6 +16,15 @@ export default {
     vs(newValue) {
       if (newValue===true) {
         this.dialogVisible=true
+      }
+    },
+    selectionArr(newValue) {
+      if (newValue) {
+        const arr = []
+        for (let key in newValue) {
+          arr.push(newValue[key].id)
+        }
+        this.selection = arr
       }
     }
   },
@@ -52,6 +62,31 @@ export default {
         })
       }
     },
+    link(rid) {
+      if (this.type==='requirement') {
+        this.$axios.post('api/project/testcase/link/',{
+          selection:this.selection,rid:rid
+        }).then((response)=>{
+          const res = response.data
+          if (res['respCode']==='000000') {
+            this.$message.success('绑定成功')
+          }else {
+            this.$message.error(res['respMsg'])
+          }
+        })
+      }else {
+        this.$axios.post('api/project/defect/link/',{
+          selection:this.selection,rid:rid
+        }).then((response)=>{
+          const res = response.data
+          if (res['respCode']==='000000') {
+            this.$message.success('绑定成功')
+          }else {
+            this.$message.error(res['respMsg'])
+          }
+        })
+      }
+    },
   },
 }
 </script>
@@ -71,7 +106,7 @@ export default {
       <el-table-column label="标题" prop="title"></el-table-column>
       <el-table-column label="操作">
         <div slot-scope="scope">
-          <el-button size="small" type="success">绑定</el-button>
+          <el-button size="small" type="success" @click="dialogVisible=false;setVs();link(scope.row.id)">绑定</el-button>
         </div>
       </el-table-column>
     </el-table>
