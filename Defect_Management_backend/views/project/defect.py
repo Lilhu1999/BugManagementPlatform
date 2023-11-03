@@ -34,8 +34,11 @@ def defect_info(request):
     try:
         pid = request.GET.get('pid')  # 项目ID
         rid = request.GET.get('rid')  # 缺陷ID
+        link_id = request.GET.get('linkId')  # 绑定的用例ID
         if pid:
             info = Defect.objects.filter(pid=pid).values()
+        elif link_id:
+            info = Defect.objects.filter(linkId=link_id).values()
         else:
             info = Defect.objects.filter(id=rid).values()
         response['respCode'] = '000000'

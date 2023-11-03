@@ -1,19 +1,23 @@
 <script>
 import TestCaseDialog from "../components/dialog/TestCaseDialog.vue";
 import LinkDialog from "../components/dialog/LinkDialog.vue";
+import ShowLinkData from "../components/dialog/ShowLinkData.vue";
 
 export default {
-  components: {LinkDialog, TestCaseDialog},
+  components: {ShowLinkData, LinkDialog, TestCaseDialog},
   data(){
     return{
       tableData:[],
       selectionArr:[],
+      // 子组件弹框控制
       dialogVisible:false,
       linkDialogVisible:false,
-      pid:'',
+      showLinkVisible:false,
+      pid:'', // 项目ID
+      searchId:'', // 用例ID，传递给ShowLinkData组件
       editOrAdd:'',
       editForm:[],
-      selectValue:'',
+      selectValue:'', // 测试用例状态
       type:'',
       option:[
         {
@@ -62,6 +66,9 @@ export default {
     },
     getLinkDialogVs(val) {
       this.linkDialogVisible=val
+    },
+    getShowLinkVs(val) {
+      this.showLinkVisible=val
     },
     // 父组件接收到子组件传递的val时，触发搜索页面数据操作
     fresh(val){
@@ -151,6 +158,9 @@ export default {
     selectionChange(selection) {
       this.selectionArr=selection
     },
+    setTestCaseId(rid) {
+      this.searchId = rid
+    }
   },
 }
 </script>
@@ -234,6 +244,7 @@ export default {
           <div slot-scope="scope">
             <el-button size="small" type="warning" @click="dialogVisible=true;editOrAdd='edit';getEditTestCaseForm(scope.row.id)">详情</el-button>
             <el-button size="small" type="danger" @click="delTestCase(scope.row.id)">删除</el-button>
+            <el-button style="margin-top: 5px" size="small" type="primary" @click="showLinkVisible=true;setTestCaseId(scope.row.id)">查看绑定</el-button>
           </div>
         </el-table-column>
       </el-table>
@@ -241,6 +252,7 @@ export default {
   </div>
   <LinkDialog :vs="linkDialogVisible" :type="'requirement'" :selectionArr="this.selectionArr" @getLinkDialogVs="getLinkDialogVs"></LinkDialog>
   <TestCaseDialog :vs="dialogVisible" :ea="editOrAdd" :editForm="editForm" @getVs="getVs" @fresh="fresh"></TestCaseDialog>
+  <ShowLinkData :vs="showLinkVisible" :type="'testCase'" :searchId="searchId" @getShowLinkVs="getShowLinkVs"></ShowLinkData>
 </div>
 </template>
 

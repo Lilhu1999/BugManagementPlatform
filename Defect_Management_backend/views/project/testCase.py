@@ -33,12 +33,15 @@ def test_case_info(request):
     try:
         pid = request.GET.get('pid')  # 项目ID
         rid = request.GET.get('rid')  # 用例ID
+        link_id = request.GET.get('linkId')  # 绑定需求ID
         rtype = request.GET.get('type')
         if pid:
             if rtype:
                 info = TestCase.objects.filter(pid=pid, type=rtype).values()
             else:
                 info = TestCase.objects.filter(pid=pid).values()
+        elif link_id:
+            info = TestCase.objects.filter(linkId=link_id).values()
         else:
             info = TestCase.objects.filter(id=rid).values()
         response['respCode'] = '000000'

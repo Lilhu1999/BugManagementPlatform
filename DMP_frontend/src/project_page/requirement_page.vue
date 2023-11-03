@@ -1,13 +1,16 @@
 <script>
 import RequirementAdd from "../components/dialog/RequirementAdd.vue";
+import ShowLinkData from "../components/dialog/ShowLinkData.vue";
 
 export default {
-  components: {RequirementAdd},
+  components: {ShowLinkData, RequirementAdd},
   data(){
     return{
       tableData:[],
       dialogVisible:false,
+      showLinkVisible:false,
       pid:'',
+      searchId:'',
       editOrAdd:'',
       editForm:[],
       stateSelectValue:'',
@@ -34,6 +37,9 @@ export default {
     // 父组件接收到子组件val时，关闭dialog
     getVs(val) {
       this.dialogVisible=val
+    },
+    getShowLinkVs(val) {
+      this.showLinkVisible=val
     },
     // 父组件接收到子组件传递的val时，触发搜索页面数据操作
     fresh(val){
@@ -171,12 +177,14 @@ export default {
           <div slot-scope="scope">
             <el-button size="small" type="warning" @click="dialogVisible=true;editOrAdd='edit';getEditRequirementForm(scope.row.id)">详情</el-button>
             <el-button size="small" type="danger" @click="delRequirement(scope.row.id)">删除</el-button>
+            <el-button style="margin-top: 5px" size="small" type="primary" @click="showLinkVisible=true;searchId=scope.row.id">查看绑定</el-button>
           </div>
         </el-table-column>
       </el-table>
     </el-card>
   </div>
   <RequirementAdd :vs="dialogVisible" :ea="editOrAdd" :editForm="editForm" @getVs="getVs" @fresh="fresh"></RequirementAdd>
+  <ShowLinkData :vs="showLinkVisible" :type="'requirement'" :searchId="searchId" @getShowLinkVs="getShowLinkVs"></ShowLinkData>
 </div>
 </template>
 
