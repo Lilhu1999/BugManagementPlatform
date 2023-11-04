@@ -177,7 +177,7 @@ export default {
           <div slot-scope="scope">
             <el-button size="small" type="warning" @click="dialogVisible=true;editOrAdd='edit';getEditRequirementForm(scope.row.id)">详情</el-button>
             <el-button size="small" type="danger" @click="delRequirement(scope.row.id)">删除</el-button>
-            <el-button style="margin-top: 5px" size="small" type="primary" @click="showLinkVisible=true;searchId=scope.row.id">查看绑定</el-button>
+            <el-button style="margin-top: 5px" size="small" type="primary" @click="showLinkVisible=true;searchId=scope.row.id">查看绑定的用例</el-button>
           </div>
         </el-table-column>
       </el-table>

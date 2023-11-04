@@ -244,7 +244,7 @@ export default {
           <div slot-scope="scope">
             <el-button size="small" type="warning" @click="dialogVisible=true;editOrAdd='edit';getEditTestCaseForm(scope.row.id)">详情</el-button>
             <el-button size="small" type="danger" @click="delTestCase(scope.row.id)">删除</el-button>
-            <el-button style="margin-top: 5px" size="small" type="primary" @click="showLinkVisible=true;setTestCaseId(scope.row.id)">查看绑定</el-button>
+            <el-button style="margin-top: 5px" size="small" type="primary" @click="showLinkVisible=true;setTestCaseId(scope.row.id)">查看绑定的缺陷</el-button>
           </div>
         </el-table-column>
       </el-table>
