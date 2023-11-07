@@ -14,9 +14,13 @@ def employee_add(request):
     response = {}
     try:
         form = json.loads(request.body)['form']
-        Employee.objects.create(name=form['name'], password=form['password'], deptId=form['deptId'], type=form['type'])
-        response['respCode'] = '000000'
-        response['respMsg'] = 'success'
+        if Employee.objects.filter(name=form['name']):
+            response['respCode'] = '999999'
+            response['respMsg'] = '用户已存在，请询问管理员'
+        else:
+            Employee.objects.create(name=form['name'], password=form['password'], deptId=form['deptId'], type=form['type'])
+            response['respCode'] = '000000'
+            response['respMsg'] = 'success'
     except Exception as e:
         response['respCode'] = '999999'
         response['respMsg'] = str(e)

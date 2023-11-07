@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from "../layout/Mainlayout.vue";
+import Cookies from "vue-cookies"
+
+Vue.use(Cookies)
 
 Vue.use(Router)
 
@@ -12,7 +15,7 @@ const router = new Router({
       component:() =>import('../main_page/login.vue')
     },
     {
-      path: '/index',
+      path: '/',
       name: 'Layout',
       component: Layout,
       redirect:'/home',
@@ -64,7 +67,7 @@ const router = new Router({
           name:'setting',
           component:() => import('../main_page/setting.vue'),
           beforeEnter:(to, from, next)=>{
-            const userType = sessionStorage.getItem('user_type')
+            const userType = window.$cookies.get('user_type')
             if (userType !== '管理员') {
               next('/home')
               alert('对不起，您暂时无权查看')
@@ -91,9 +94,10 @@ const router = new Router({
 export default router;
 
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = sessionStorage.getItem('username'); // 根据实际情况判断用户是否已登录
+  const isLoggedIn = window.$cookies.get('username') // 根据实际情况判断用户是否已登录
   if (to.path !== '/login' && !isLoggedIn) {
     // 如果用户未登录且访问的不是登录页，则重定向到登录页
+    alert('登录过期')
     next('/login');
   } else {
     // 已登录或者访问的是登录页，则正常跳转

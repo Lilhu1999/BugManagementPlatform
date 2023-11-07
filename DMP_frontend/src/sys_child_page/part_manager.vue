@@ -57,7 +57,7 @@ import SelectTree from './SelectTree.vue'
           if (res['respCode']==='000000'){
             this.treeData = res['list']
           }else {
-            console.log(res['respMsg'])
+            this.$message.error(res['respMsg'])
           }
         })
       },
@@ -71,8 +71,7 @@ import SelectTree from './SelectTree.vue'
             this.$message.success('新增部门成功')
             this.getTreeData()
           }else {
-            console.log(res['respMsg'])
-            this.$message.error('新增部门失败')
+            this.$message.error(res['respMsg'])
           }
         })
       },
@@ -85,8 +84,7 @@ import SelectTree from './SelectTree.vue'
           if (res['respCode']==='000000'){
             this.$message.success('新增人员成功')
           }else {
-            console.log(res['respMsg'])
-            this.$message.error('新增人员失败')
+            this.$message.error(res['respMsg'])
           }
         })
       },
@@ -100,8 +98,7 @@ import SelectTree from './SelectTree.vue'
             this.$message.success('删除成功')
             this.getEmp(id)
           }else {
-            this.$message.success('删除失败')
-            console.log(res['respMsg'])
+            this.$message.success(res['respMsg'])
           }
         })
       },
@@ -113,7 +110,7 @@ import SelectTree from './SelectTree.vue'
           if (res['respCode']==='000000') {
             this.tableData = res['list']
           }else {
-            console.log(res['respMsg'])
+            this.$message.error(res['respMsg'])
           }
         })
       },
@@ -256,7 +253,6 @@ import SelectTree from './SelectTree.vue'
       </el-row>
     </el-form>
   </el-dialog>
-
 </div>
 </template>
 

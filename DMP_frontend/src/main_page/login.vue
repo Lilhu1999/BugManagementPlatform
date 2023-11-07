@@ -19,9 +19,9 @@ export default {
       }).then((response)=>{
         const res = response.data
         if (res['respCode']==='000000') {
-          sessionStorage.setItem('username',this.loginForm.username)
-          sessionStorage.setItem('user_type',res['user_type'])
-          this.$router.push({path:'/index'})
+          this.$cookies.set('user_type',res['user_type'],60*60*24*7)
+          this.$cookies.set('username',this.loginForm.username,60*60*24*7)
+          this.$router.push('/home')
           this.$message.success('登录成功')
         }else {
           this.$message.error(res['respMsg'])

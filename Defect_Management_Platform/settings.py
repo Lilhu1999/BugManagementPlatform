@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# SESSION_SAVE_EVERY_REQUEST = True
+# 设置session过期时间
+# SESSION_COOKIE_AGE = 60*30
+
+# 浏览器关闭时删除session
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 # Application definition
 

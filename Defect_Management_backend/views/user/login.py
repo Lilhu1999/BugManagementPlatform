@@ -7,6 +7,7 @@ from django.views.decorators.http import require_http_methods
 from Defect_Management_backend.models import Employee
 
 
+# 登录接口
 @csrf_exempt
 @require_http_methods(['POST'])
 def user_login(request):
@@ -30,6 +31,22 @@ def user_login(request):
         else:
             response['respCode'] = '999999'
             response['respMsg'] = '用户名不存在'
+    except Exception as e:
+        response['respCode'] = '999999'
+        response['respMsg'] = str(e)
+    return JsonResponse(response)
+
+# 修改密码
+@csrf_exempt
+@require_http_methods(['POST'])
+def password_edit(request):
+    response = {}
+    try:
+        new_password = json.loads(request.body)['password']
+        username = json.loads(request.body)['username']
+        Employee.objects.filter(username=username).update(password=new_password)
+        response['respCode'] = '000000'
+        response['respMsg'] = 'success'
     except Exception as e:
         response['respCode'] = '999999'
         response['respMsg'] = str(e)

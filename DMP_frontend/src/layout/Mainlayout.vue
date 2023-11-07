@@ -47,6 +47,15 @@
               系统设置
             </div>
           </el-menu-item>
+          <div class="aside_avatar">
+            <el-dropdown @command="handleCommand">
+              <el-avatar>{{ this.$cookies.get('username').slice(0,1) }}</el-avatar>
+              <el-dropdown-menu>
+                <el-dropdown-item command="editPassword">修改密码</el-dropdown-item>
+                <el-dropdown-item command="exit">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </el-menu>
       </div>
     </el-aside>
@@ -74,7 +83,16 @@ export default {
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
-    }
+    },
+    handleCommand(command) {
+      if (command==='editPassword') {
+        this.$message.info('待开发')
+      }else {
+        this.$cookies.remove('username')
+        this.$cookies.remove('user_type')
+        this.$router.push('/login')
+      }
+    },
   }
 }
 </script>
@@ -109,5 +127,9 @@ export default {
   position: relative;
   left: -20px;
   top: -10px
+}
+.aside_avatar {
+  text-align: center;
+  margin-top: 200px;
 }
 </style>
