@@ -59,6 +59,7 @@ export default {
         <el-menu-item index="/pj/requirement" @click="saveActivePath('/pj/requirement')">需求</el-menu-item>
         <el-menu-item index="/pj/defect" @click="saveActivePath('/pj/defect')">缺陷</el-menu-item>
         <el-menu-item index="/pj/testCase" @click="saveActivePath('/pj/testCase')">测试用例</el-menu-item>
+        <el-menu-item index="/pj/document" @click="saveActivePath('/pj/document')">文档</el-menu-item>
         <el-menu-item style="float: right">
           <el-input v-model="searchInput" class="header_input" prefix-icon="el-icon-search" size="small"></el-input>
         </el-menu-item>

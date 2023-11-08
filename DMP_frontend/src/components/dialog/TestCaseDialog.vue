@@ -175,7 +175,7 @@ export default {
         <el-col :span="24">
           <el-divider></el-divider>
         </el-col>
-        <el-col :span="24">
+        <el-col :span="24" v-if="$cookies.get('user_type')==='管理员'">
           <el-button size="small" type="primary" v-if="this.ea==='add'" @click="dialogVisible=false;createTestCase();setVs()">创建</el-button>
           <el-button size="small" type="primary" v-else-if="this.ea==='edit'" @click="dialogVisible=false;editTestCase(form.id);setVs()">修改</el-button>
           <el-button size="small" @click="dialogVisible=false;setVs();resetFrom()">取消</el-button>

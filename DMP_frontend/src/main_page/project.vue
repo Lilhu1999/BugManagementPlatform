@@ -21,7 +21,7 @@
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="4" style="margin-bottom: 20px">
+            <el-col :span="4" style="margin-bottom: 20px" v-if="$cookies.get('user_type')==='管理员'">
               <el-card shadow="hover" :body-style="{ padding:'10px' }" class="point">
                 <el-image :src="require('../assets/项目页新增图标.png')" style="background: #EBEEF5;" @click="setVisible"></el-image>
               </el-card>

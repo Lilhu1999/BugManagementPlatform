@@ -112,6 +112,16 @@ export default {
     selectionChange(selection)  {
       this.selectionArr = selection
     },
+    tableRowClassName({row, rowIndex}) {
+      if (row['state']==='已解决') {
+        return 'success-row'
+      }else if (row['state']==='待解决') {
+        return 'error-row'
+      }else if (row['state']==='重新打开') {
+        return 'warning-row'
+      }
+      return ''
+    },
   },
 }
 </script>
@@ -138,7 +148,7 @@ export default {
   </div>
   <div>
     <el-card>
-      <el-table :data="tableData" max-height="70vh" style="width: 100%;min-height: 65vh" @selection-change="selectionChange">
+      <el-table :row-class-name="tableRowClassName" :data="tableData" max-height="70vh" style="width: 100%;min-height: 65vh" @selection-change="selectionChange">
         <el-table-column
           type="selection"
           width="50">
@@ -204,7 +214,7 @@ export default {
           width="150">
           <div slot-scope="scope">
             <el-button size="small" type="warning" @click="dialogVisible=true;editOrAdd='edit';getEditDefectForm(scope.row.id)">详情</el-button>
-            <el-button size="small" type="danger" @click="delDefect(scope.row.id)">删除</el-button>
+            <el-button v-if="$cookies.get('user_type')==='管理员'" size="small" type="danger" @click="delDefect(scope.row.id)">删除</el-button>
           </div>
         </el-table-column>
       </el-table>
@@ -219,5 +229,14 @@ export default {
 .el-table {
   display: flex;
   flex-direction: column;
+}
+.el-table /deep/ .success-row {
+  background: #f7ffe6;
+}
+.el-table /deep/ .error-row {
+  background: #fce9e9;
+}
+.el-table /deep/ .warning-row {
+  background:oldlace;
 }
 </style>

@@ -41,20 +41,25 @@ const router = new Router({
           component:()=>import('../layout/project_layout.vue'),
           children:[
             {
-              path:'/requirement',
+              path:'requirement',
               name:'requirement',
               component:()=>import('../project_page/requirement_page.vue'),
             },
             {
-              path:'/defect',
+              path:'defect',
               name:'defect',
               component:()=>import('../project_page/defect_page.vue'),
             },
             {
-              path:'/testCase',
+              path:'testCase',
               name:'testCase',
               component:()=>import('../project_page/testCase_page.vue'),
-            }
+            },
+            {
+              path:'document',
+              name:'document',
+              component:()=>import('../project_page/document_page.vue'),
+            },
           ]
         },
         {
