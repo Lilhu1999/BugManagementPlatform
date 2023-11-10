@@ -73,3 +73,13 @@ class TestCase(models.Model):
     desc = models.CharField(max_length=256, verbose_name='用例步骤')
     pid = models.CharField(max_length=16, verbose_name='所属项目ID')
     linkId = models.CharField(max_length=8, verbose_name='绑定需求ID', null=True)
+
+
+# 项目文件表
+class ProjectFile(models.Model):
+    fileName = models.CharField(max_length=64, verbose_name='文件名')
+    filePath = models.CharField(max_length=256, verbose_name='文件路径')
+    creator = models.CharField(max_length=64, verbose_name='上传人')
+    createTime = models.CharField(max_length=64, verbose_name='创建时间',
+                                  default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
+    pid = models.CharField(max_length=16, verbose_name='所属项目ID')

@@ -127,7 +127,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 # 文件存放地址
-FILE_URL = '/file/'
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10240
+FILE_URL = 'file/'
 FILE_ROOT = os.path.join(BASE_DIR, 'templates')
 
 STATIC_URL = 'static/'
