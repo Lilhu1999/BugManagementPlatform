@@ -1,6 +1,5 @@
 <script>
 import Upload from "../components/upload.vue";
-
 export default {
   components: {Upload},
   data() {
@@ -17,6 +16,7 @@ export default {
     this.getTableData()
   },
   methods:{
+    // 获取页面数据
     getTableData() {
       this.$axios.get('api/project/document/info/',{
         params:{pid:sessionStorage.getItem('pid'),fileName:this.searchForm.fileName,creator:this.searchForm.creator}
@@ -28,6 +28,27 @@ export default {
           this.$message.error(res['respMsg'])
         }
       })
+    },
+    // 单文件下载
+    download(uid, name) {
+      this.$axios({
+        method:'get',
+        url:'api/download/',
+        params:{
+          uid:uid,
+        },
+        responseType:"blob"
+      }).then((response)=>{
+        const res = response.data
+        const url = window.URL.createObjectURL(new Blob([res]));
+        const link = document.createElement('a');
+        link.href = url
+        link.setAttribute('download', name);
+        document.body.appendChild(link);
+        link.click()
+      }).catch((e)=>{
+          console.log(e)
+        })
     },
   }
 }
@@ -66,7 +87,7 @@ export default {
           <el-table-column label="上传时间" prop="createTime"></el-table-column>
           <el-table-column label="操作">
             <div slot-scope="scope">
-              <el-button size="small" type="primary">下载</el-button>
+              <el-button size="small" type="primary" @click="download(scope.row.id,scope.row.fileName)">下载</el-button>
               <el-button v-if="$cookies.get('user_type')==='管理员'" size="small" type="danger">删除</el-button>
             </div>
           </el-table-column>

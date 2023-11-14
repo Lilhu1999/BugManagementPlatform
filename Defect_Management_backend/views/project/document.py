@@ -1,6 +1,6 @@
 import json
 import os
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
@@ -18,7 +18,8 @@ def document_info(request):
         creator = request.GET.get('creator')
         if pid:
             if fileName and creator:
-                info = ProjectFile.objects.filter(pid=pid, fileName__contains=fileName, creator__contains=creator).values()
+                info = ProjectFile.objects.filter(pid=pid, fileName__contains=fileName,
+                                                  creator__contains=creator).values()
             elif fileName:
                 info = ProjectFile.objects.filter(pid=pid, fileName__contains=fileName).values()
             elif creator:
@@ -53,6 +54,25 @@ def upload(request):
         response['respCode'] = '999999'
         response['respMsg'] = str(e)
     return JsonResponse(response)
+
+
+# 文件下载
+@csrf_exempt
+@require_http_methods(['GET'])
+def download(request):
+    response = {}
+    try:
+        uid = request.GET.get('uid')  # 获取的文件ID
+        file_path = ProjectFile.objects.filter(id=uid).values()[0]['filePath']  # 查询一条数据的某个数据
+        file_name = ProjectFile.objects.filter(id=uid).values()[0]['fileName']
+        with open('./templates'+file_path[6::], 'rb') as f:
+            response = HttpResponse(f.read())
+        response['Content-Type'] = 'application/octet-stream'
+        response['Content-Disposition'] = f'attachment;filename="{file_name}"'
+    except Exception as e:
+        response['respCode'] = '999999'
+        response['respMsg'] = str(e)
+    return response
 
 
 # 存储方法
