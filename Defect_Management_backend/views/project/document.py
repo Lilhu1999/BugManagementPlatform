@@ -37,6 +37,21 @@ def document_info(request):
     return JsonResponse(response)
 
 
+# 项目文件删除
+@csrf_exempt
+@require_http_methods(['DELETE'])
+def document_del(request):
+    response = {}
+    try:
+        uid = request.GET.get('uid')
+        ProjectFile.objects.filter(id=uid).delete()
+        response['respCode'] = '000000'
+        response['respMsg'] = 'success'
+    except Exception as e:
+        response['respCode'] = '999999'
+        response['respMsg'] = str(e)
+    return JsonResponse(response)
+
 # 项目文件上传接口
 @csrf_exempt
 def upload(request):

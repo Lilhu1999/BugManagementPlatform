@@ -50,6 +50,30 @@ export default {
           console.log(e)
         })
     },
+    // 删除文件
+    delFile(uid) {
+      this.$confirm('确定删除该文件吗？',{
+        confirmButtonText:'确定',
+        cancelButtonText:'取消',
+        type:"warning"
+      })
+        .then(()=>{
+          this.$axios.delete('api/project/document/del/', {
+          params:{uid:uid}
+        }).then((response)=>{
+          const res = response.data
+          if (res['respCode']==='000000') {
+            this.$message.success('删除成功')
+            this.getTableData()
+          }else {
+            this.$message.error(res['respMsg'])
+          }
+        })
+      })
+        .catch(()=>{
+          this.$message.info('取消删除')
+        })
+    },
   }
 }
 </script>
@@ -88,7 +112,7 @@ export default {
           <el-table-column label="操作">
             <div slot-scope="scope">
               <el-button size="small" type="primary" @click="download(scope.row.id,scope.row.fileName)">下载</el-button>
-              <el-button v-if="$cookies.get('user_type')==='管理员'" size="small" type="danger">删除</el-button>
+              <el-button v-if="$cookies.get('user_type')==='管理员'" size="small" type="danger" @click="delFile(scope.row.id)">删除</el-button>
             </div>
           </el-table-column>
         </el-table>

@@ -8,7 +8,7 @@ from Defect_Management_backend.views.project.requirement import requirement_add,
     requirement_del, requirement_update_state
 from Defect_Management_backend.views.project.testCase import test_case_add, test_case_edit, test_case_del, \
     test_case_update_state, test_case_info, link_requirement
-from Defect_Management_backend.views.project.document import upload, document_info, download
+from Defect_Management_backend.views.project.document import upload, document_info, download, document_del
 
 urlpatterns = [
     path('project/add/', project_add),
@@ -35,4 +35,5 @@ urlpatterns = [
     path('upload/', upload),
     path('download/', download),
     path('project/document/info/', document_info),
+    path('project/document/del/', document_del),
 ]
