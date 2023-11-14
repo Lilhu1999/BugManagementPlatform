@@ -59,9 +59,15 @@
         </el-menu>
       </div>
     </el-aside>
-    <el-main>
-      <router-view></router-view>
-    </el-main>
+    <el-container>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+      <el-footer>
+        <div class="footer_div">Copyright © By Lil_hu版权所有</div>
+        <el-link href="https://beian.miit.gov.cn/" target="_blank">浙ICP备2023040189号-1</el-link>
+      </el-footer>
+    </el-container>
   </el-container>
   </div>
 </template>
@@ -102,6 +108,7 @@ export default {
   padding: 0;
   overflow-x: hidden;
   border-radius: 0 10px 10px 0;
+  height: 80vh;
 }
 .el-aside {
   border-radius:10px 0 0 10px;
@@ -109,6 +116,10 @@ export default {
 }
 .el-menu {
   height: 97vh;
+}
+.el-footer {
+  background-color: #EBEEF5;
+  text-align: center;
 }
 .el-menu-item {
   line-height: 40px;
@@ -131,5 +142,9 @@ export default {
 .aside_avatar {
   text-align: center;
   margin-top: 200px;
+}
+.footer_div{
+  font-size: 12px;
+  color: #999999;
 }
 </style>

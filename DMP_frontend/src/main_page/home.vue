@@ -11,19 +11,19 @@
         </div>
         <el-row :gutter="30">
           <el-col :span="12">
-            <el-card shadow="never" style="height: 83vh">
+            <el-card shadow="never" style="height: 73vh">
               <div slot="header">
                 <span>任务列表</span>
               </div>
             </el-card>
           </el-col>
           <el-col :span="12">
-            <el-card shadow="never" style="height: 40vh;margin-bottom: 20px">
+            <el-card shadow="never" style="height: 35vh;margin-bottom: 20px">
               <div slot="header">
                 <span>参与项目</span>
               </div>
             </el-card>
-            <el-card shadow="never" style="height: 40vh">
+            <el-card shadow="never" style="height: 35vh">
               <div slot="header">
                 <span>消息列表</span>
               </div>
