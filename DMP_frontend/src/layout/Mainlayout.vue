@@ -65,7 +65,10 @@
       </el-main>
       <el-footer>
         <div class="footer_div">Copyright © By Lil_hu版权所有</div>
-        <el-link href="https://beian.miit.gov.cn/" target="_blank">浙ICP备2023040189号-1</el-link>
+        <div>
+          <span class="footer_div">浙公网安备33090202000577号</span>
+          <el-link class="footer_div" href="https://beian.miit.gov.cn/" target="_blank">浙ICP备2023040189号-1</el-link>
+        </div>
       </el-footer>
     </el-container>
   </el-container>
