@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*4@582zw4e8l)$j&e6i9grm)1vma%fqr7%_4-ekb$t)ugk1i-s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.lilhu.icu']
+ALLOWED_HOSTS = ['www.lilhu.icu', '127.0.0.1']
 
 # SESSION_SAVE_EVERY_REQUEST = True
 # 设置session过期时间
