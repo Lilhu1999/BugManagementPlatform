@@ -1,7 +1,7 @@
 <template>
   <div class="back_sty">
   <el-container>
-    <el-aside width="60px">
+    <el-aside width="4vw">
       <div>
         <el-menu
           router
@@ -125,29 +125,31 @@ export default {
   text-align: center;
 }
 .el-menu-item {
-  line-height: 40px;
-  height: 80px;
+  line-height: 5vh;
+  height: 10vh;
 }
 .el_menu_i_sty{
-  width: 60px !important;
-  height: 20px;
+  width: 4vw !important;
+  height: 2vh;
   position: relative;
-  left: -20px;
+  left: -1.3vw;
 }
 .el_menu_text_sty{
-  width: 60px;
-  height: 40px;
+  width: 4vw;
+  height: 2vh;
   text-align: center;
   position: relative;
-  left: -20px;
-  top: -10px
+  left: -1.3vw;
+  top: -1vh
 }
 .aside_avatar {
   text-align: center;
-  margin-top: 200px;
+  margin-top: 27vh;
 }
 .footer_div{
-  font-size: 12px;
+  position: relative;
+  top: 2vh;
+  font-size: 1.5vb;
   color: #999999;
 }
 </style>

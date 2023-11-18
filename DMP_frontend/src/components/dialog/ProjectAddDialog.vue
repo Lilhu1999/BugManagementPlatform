@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible" @close="dialogVisible=false;sendVisible();clearForm()">
       <template slot="title">
         <div class="dialog_titleSty" v-if="type==='add'">新建项目</div>
         <div class="dialog_titleSty" v-else-if="type==='edit'">编辑项目</div>
         <el-divider></el-divider>
       </template>
-      <el-form :model="projectData">
+      <el-form :model="projectData" ref="form">
         <el-form-item>
           <span class="el-icon-menu dialog_span">项目模版</span>
         </el-form-item>
@@ -15,7 +15,7 @@
         </el-form-item>
         <el-row :gutter="30">
           <el-col :span="12">
-            <el-form-item label="项目部门">
+            <el-form-item label="项目部门" prop="dept">
               <SelectTree
                 ref="selectTree"
                 :multipleType="multipleType"
@@ -26,7 +26,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目成员">
+            <el-form-item label="项目成员" prop="member">
               <el-select
                 v-model="projectData.member"
                 multiple
@@ -43,10 +43,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item>
+        <el-form-item prop="name">
           <el-input placeholder="请输入项目名称" show-word-limit maxlength="15" v-model="projectData.name"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="desc">
           <el-input type="textarea" placeholder="项目描述" show-word-limit maxlength="100" v-model="projectData.desc"></el-input>
         </el-form-item>
         <el-divider></el-divider>
@@ -107,6 +107,9 @@ export default {
   methods:{
     sendVisible(){
       this.$emit('getVisible','false')
+    },
+    clearForm() {
+      this.$refs.form.resetFields()
     },
     // 获取子组件传递的部门ID
     getPid(id) {
