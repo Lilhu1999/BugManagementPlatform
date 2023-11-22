@@ -52,6 +52,7 @@ def document_del(request):
         response['respMsg'] = str(e)
     return JsonResponse(response)
 
+
 # 项目文件上传接口
 @csrf_exempt
 def upload(request):
@@ -80,7 +81,7 @@ def download(request):
         uid = request.GET.get('uid')  # 获取的文件ID
         file_path = ProjectFile.objects.filter(id=uid).values()[0]['filePath']  # 查询一条数据的某个数据
         file_name = ProjectFile.objects.filter(id=uid).values()[0]['fileName']
-        with open('./templates'+file_path[6::], 'rb') as f:
+        with open('./templates' + file_path[6::], 'rb') as f:
             response = HttpResponse(f.read())
         response['Content-Type'] = 'application/octet-stream'
         response['Content-Disposition'] = f'attachment;filename="{file_name}"'

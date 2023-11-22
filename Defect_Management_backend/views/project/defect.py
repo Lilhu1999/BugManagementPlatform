@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 from Defect_Management_backend.models import Defect
 
 
-# 新增需求接口
+# 新增接口
 @csrf_exempt
 @require_http_methods(['POST'])
 def defect_add(request):
@@ -103,7 +103,7 @@ def defect_update_state(request):
     return JsonResponse(response)
 
 
-# 绑定需求功能
+# 绑定用例功能
 @csrf_exempt
 @require_http_methods(['POST'])
 def link_test_case(request):

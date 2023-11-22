@@ -60,6 +60,11 @@ const router = new Router({
               name:'document',
               component:()=>import('../project_page/document_page.vue'),
             },
+            {
+              path:'iteration',
+              name:'iteration',
+              component:()=>import('../project_page/iteration_page.vue'),
+            },
           ]
         },
         {

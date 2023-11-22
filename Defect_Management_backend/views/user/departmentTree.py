@@ -40,7 +40,6 @@ def department_add(request):
     response = {}
     try:
         form = json.loads(request.body)['form']
-        print(form)
         Department.objects.create(name=form['name'], parentId=form['id'], hasChildren='false')
         Department.objects.filter(id=form['id']).update(hasChildren='true')
         response['respCode'] = '000000'

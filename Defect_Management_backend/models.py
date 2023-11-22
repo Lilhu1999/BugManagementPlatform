@@ -75,6 +75,15 @@ class TestCase(models.Model):
     linkId = models.CharField(max_length=8, verbose_name='绑定需求ID', null=True)
 
 
+# 迭代表
+class Iteration(models.Model):
+    title = models.CharField(max_length=32, verbose_name='标题')
+    state = models.CharField(max_length=16, verbose_name='状态', default='打开')
+    start = models.CharField(max_length=64, verbose_name='开始时间')
+    end = models.CharField(max_length=64, verbose_name='结束时间')
+    pid = models.CharField(max_length=16, verbose_name='所属项目ID')
+
+
 # 项目文件表
 class ProjectFile(models.Model):
     fileName = models.CharField(max_length=64, verbose_name='文件名')
