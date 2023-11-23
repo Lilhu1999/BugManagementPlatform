@@ -25,15 +25,7 @@ export default {
         end:'',
         desc:'',
       },
-      iterationOption:[
-        {
-          value: 'v4.1.6',
-          label: 'v4.1.6'
-        },{
-          value: 'v4.1.7',
-          label: 'v4.1.7'
-        }
-      ],
+      iterationOption:[],
       priorityOption:[
         {
           value: '紧急',
@@ -63,9 +55,26 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getIterationData()
+  },
   methods:{
     setVs() {
       this.$emit('getVs',false)
+    },
+    // 动态获取迭代数据
+    async getIterationData() {
+      let pid = await this.setPid()
+      this.$axios.get('api/project/iteration/info/',{
+        params:{pid:pid}
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.iterationOption = res['list']
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
     },
     // 重置表单
     resetFrom() {
@@ -145,9 +154,9 @@ export default {
                 <el-select v-model="form.iteration" size="small" class="right_input_width">
                   <el-option
                     v-for="item in iterationOption"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.id"
+                    :label="item.title"
+                    :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>

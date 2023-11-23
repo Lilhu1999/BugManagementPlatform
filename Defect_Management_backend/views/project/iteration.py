@@ -15,7 +15,11 @@ def iteration_add(request):
     try:
         form = json.loads(request.body)['form']
         pid = json.loads(request.body)['pid']
-        Iteration.objects.create(title=form['title'], start=form['start'], end=form['end'], pid=pid)
+        if form['state'] == '关闭':
+            Iteration.objects.create(title=form['title'], start=form['start'], end=form['end'], state=form['state'],
+                                     pid=pid)
+        else:
+            Iteration.objects.create(title=form['title'], start=form['start'], end=form['end'], pid=pid)
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
     except Exception as e:

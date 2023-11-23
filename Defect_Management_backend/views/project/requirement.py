@@ -34,10 +34,13 @@ def requirement_info(request):
     try:
         pid = request.GET.get('pid')  # 项目ID
         rid = request.GET.get('rid')  # 需求ID
+        iteration = request.GET.get('iterationId')    # 迭代ID
         if pid:
             info = Requirement.objects.filter(pid=pid).values()
-        else:
+        elif rid:
             info = Requirement.objects.filter(id=rid).values()
+        else:
+            info = Requirement.objects.filter(iteration=iteration).values()
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
         response['list'] = list(info)
