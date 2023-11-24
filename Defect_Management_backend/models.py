@@ -52,7 +52,8 @@ class Defect(models.Model):
 class Requirement(models.Model):
     title = models.CharField(max_length=64, verbose_name='标题')
     priority = models.CharField(max_length=16, verbose_name='优先级')  # 紧急/高/中/低
-    iteration = models.CharField(max_length=32, verbose_name='迭代')  # 暂时写死了
+    iteration = models.CharField(max_length=32, verbose_name='迭代名')  # 暂时写死了
+    iterationId = models.CharField(max_length=16, verbose_name='迭代id', null=True)
     state = models.CharField(max_length=32, verbose_name='状态', default='进行中')
     handler = models.CharField(max_length=32, verbose_name='处理人')
     start = models.CharField(max_length=32, verbose_name='预计开始')
