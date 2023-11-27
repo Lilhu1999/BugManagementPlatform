@@ -119,3 +119,20 @@ def link_test_case(request):
         response['respCode'] = '999999'
         response['respMsg'] = str(e)
     return JsonResponse(response)
+
+
+# 获取user任务列表
+@csrf_exempt
+@require_http_methods(['GET'])
+def defect_task_list(request):
+    response = {}
+    try:
+        username = request.GET.get('username')
+        info = Defect.objects.filter(handler=username).values()
+        response['respCode'] = '000000'
+        response['respMsg'] = 'success'
+        response['list'] = list(info)
+    except Exception as e:
+        response['respCode'] = '999999'
+        response['respMsg'] = str(e)
+    return JsonResponse(response)

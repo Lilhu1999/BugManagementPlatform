@@ -27,15 +27,7 @@ export default {
         createTime:'',
         desc:'',
       },
-      iterationOption:[
-        {
-          value: 'v4.1.6',
-          label: 'v4.1.6'
-        },{
-          value: 'v4.1.7',
-          label: 'v4.1.7'
-        }
-      ],
+      iterationOption:[],
       priorityOption:[
         {
           value: '紧急',
@@ -80,6 +72,9 @@ export default {
       }
     }
   },
+  mounted() {
+    this.getIterationData()
+  },
   methods:{
     setVs() {
       this.$emit('getVs',false)
@@ -87,6 +82,20 @@ export default {
     // 重置表单
     resetFrom() {
       this.form = Object.assign({},this.form,this.defaultFrom)
+    },
+    // 动态获取迭代数据
+    async getIterationData() {
+      let pid = await this.setPid()
+      this.$axios.get('api/project/iteration/info/',{
+        params:{pid:pid}
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.iterationOption = res['list']
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
     },
     async setPid() {
       return sessionStorage.getItem('pid')

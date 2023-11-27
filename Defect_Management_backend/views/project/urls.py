@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from Defect_Management_backend.views.project.defect import defect_add, defect_info, defect_edit, defect_del, \
-    defect_update_state, link_test_case
+    defect_update_state, link_test_case, defect_task_list
 from Defect_Management_backend.views.project.iteration import iteration_add, iteration_del, iteration_edit, \
     iteration_info, iteration_update_state
 from Defect_Management_backend.views.project.project import project_add, project_del, project_info, project_edit
@@ -28,6 +28,7 @@ urlpatterns = [
     path('project/defect/del/', defect_del),
     path('project/defect/updateState/', defect_update_state),
     path('project/defect/link/', link_test_case),
+    path('project/defect/taskList/', defect_task_list),
     path('project/testcase/add/', test_case_add),
     path('project/testcase/info/', test_case_info),
     path('project/testcase/edit/', test_case_edit),

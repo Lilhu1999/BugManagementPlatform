@@ -42,7 +42,7 @@ class Defect(models.Model):
                                   default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
     creator = models.CharField(max_length=16, verbose_name='创建人')
     handler = models.CharField(max_length=16, verbose_name='处理人')
-    state = models.CharField(max_length=16, verbose_name='缺陷状态', default='进行中')  # 状态：待修复/已修复/重新打开/关闭
+    state = models.CharField(max_length=16, verbose_name='缺陷状态', default='待修复')  # 状态：待修复/已修复/重新打开/关闭
     videoPath = models.CharField(max_length=256, verbose_name='视频路径')
     imagePath = models.CharField(max_length=256, verbose_name='图片路径')
     linkId = models.CharField(max_length=8, verbose_name='绑定用例ID', null=True)

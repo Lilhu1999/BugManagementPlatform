@@ -4,7 +4,34 @@ export default {
     return {
       taskList:[],
     }
-  }
+  },
+  mounted() {
+    this.getTaskList()
+  },
+  methods:{
+    getTaskList() {
+      this.$axios.get('api/project/defect/taskList/',{
+        params:{username:this.$cookies.get('username')}
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.taskList = res['list']
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
+    },
+    tableRowClassName({row, rowIndex}) {
+      if (row['state']==='已解决') {
+        return 'success-row'
+      }else if (row['state']==='待解决') {
+        return 'error-row'
+      }else if (row['state']==='重新打开') {
+        return 'warning-row'
+      }
+      return ''
+    },
+  },
 }
 </script>
 
@@ -22,21 +49,12 @@ export default {
                 <span>待处理BUG</span>
               </div>
               <div>
-                <el-table :row-class-name="tableRowClassName" :data="tableData" max-height="70vh" style="width: 100%;min-height: 65vh" @selection-change="selectionChange">
-                  <el-table-column
-                    type="selection"
-                    width="50">
-                  </el-table-column>
-                  <el-table-column
-                    label="#"
-                    type="index"
-                    width="50"
-                    align="align">
-                  </el-table-column>
+                <el-table :row-class-name="tableRowClassName" :data="taskList" max-height="70vh" class="left_card_style">
                   <el-table-column
                     label="标题"
                     prop="title"
-                    width="300">
+                    width="100"
+                    show-overflow-tooltip>
                   </el-table-column>
                   <el-table-column
                     label="优先级"
@@ -67,16 +85,13 @@ export default {
                     prop="state">
                   </el-table-column>
                   <el-table-column
-                    label="处理人"
-                    prop="handler">
-                  </el-table-column>
-                  <el-table-column
                     label="创建人"
                     prop="creator">
                   </el-table-column>
                   <el-table-column
                     label="创建时间"
-                    prop="createTime">
+                    prop="createTime"
+                    show-overflow-tooltip>
                   </el-table-column>
                 </el-table>
               </div>
@@ -101,5 +116,18 @@ export default {
 </template>
 
 <style scoped>
-
+.el-table /deep/ .success-row {
+  background: #f7ffe6;
+}
+.el-table /deep/ .error-row {
+  background: #fce9e9;
+}
+.el-table /deep/ .warning-row {
+  background:oldlace;
+}
+.left_card_style /deep/ .el-card__body, .el-main {
+  padding: 5px;
+  width: 100%;
+  min-height: 65vh
+}
 </style>
