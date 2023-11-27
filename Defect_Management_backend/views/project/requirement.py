@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from Defect_Management_backend.models import Requirement
+from Defect_Management_backend.models import Requirement, Iteration
 
 
 # 新增需求接口
@@ -15,7 +15,8 @@ def requirement_add(request):
     try:
         form = json.loads(request.body)['form']
         pid = json.loads(request.body)['pid']  # 项目ID
-        Requirement.objects.create(title=form['title'], priority=form['priority'], iteration=form['iteration'],
+        iteration_title = Iteration.objects.filter(id=form['iteration']).values('title')
+        Requirement.objects.create(title=form['title'], priority=form['priority'], iteration=iteration_title, iterationId=form['iteration'],
                                    handler=form['handler'], start=form['start'], end=form['end'],
                                    desc=form['desc'], pid=pid)
         response['respCode'] = '000000'
@@ -34,13 +35,13 @@ def requirement_info(request):
     try:
         pid = request.GET.get('pid')  # 项目ID
         rid = request.GET.get('rid')  # 需求ID
-        iteration = request.GET.get('iterationId')    # 迭代ID
+        iteration_id = request.GET.get('iterationId')    # 迭代ID
         if pid:
             info = Requirement.objects.filter(pid=pid).values()
         elif rid:
             info = Requirement.objects.filter(id=rid).values()
         else:
-            info = Requirement.objects.filter(iteration=iteration).values()
+            info = Requirement.objects.filter(iterationId=iteration_id).values()
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
         response['list'] = list(info)
@@ -58,8 +59,9 @@ def requirement_edit(request):
     try:
         rid = json.loads(request.body)['rid']
         form = json.loads(request.body)['form']
+        iteration_title = Iteration.objects.filter(id=form['iteration']).values('title')
         Requirement.objects.filter(id=rid).update(title=form['title'], priority=form['priority'],
-                                                  iteration=form['iteration'],
+                                                  iterationId=form['iteration'], iteration=iteration_title,
                                                   handler=form['handler'], start=form['start'], end=form['end'],
                                                   desc=form['desc'])
         response['respCode'] = '000000'

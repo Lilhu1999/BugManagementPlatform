@@ -52,10 +52,7 @@ def iteration_edit(request):
     try:
         form = json.loads(request.body)['form']
         rid = json.loads(request.body)['rid']
-        if form['state']:
-            Iteration.objects.filter(id=rid).update(state=form['state'])
-        else:
-            Iteration.objects.filter(id=rid).update(title=form['title'], start=form['start'], end=form['end'])
+        Iteration.objects.filter(id=rid).update(title=form['title'], start=form['start'], end=form['end'], state=form['state'])
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
     except Exception as e:
@@ -75,6 +72,23 @@ def iteration_info(request):
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
         response['list'] = list(info)
+    except Exception as e:
+        response['respCode'] = '999999'
+        response['respMsg'] = str(e)
+    return JsonResponse(response)
+
+
+# 修改状态接口
+@csrf_exempt
+@require_http_methods(['POST'])
+def iteration_update_state(request):
+    response = {}
+    try:
+        rid = json.loads(request.body)['rid']
+        state = json.loads(request.body)['state']
+        Iteration.objects.filter(id=rid).update(state=state)
+        response['respCode'] = '000000'
+        response['respMsg'] = 'success'
     except Exception as e:
         response['respCode'] = '999999'
         response['respMsg'] = str(e)

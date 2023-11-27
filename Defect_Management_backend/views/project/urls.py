@@ -3,7 +3,7 @@ from django.urls import path, include
 from Defect_Management_backend.views.project.defect import defect_add, defect_info, defect_edit, defect_del, \
     defect_update_state, link_test_case
 from Defect_Management_backend.views.project.iteration import iteration_add, iteration_del, iteration_edit, \
-    iteration_info
+    iteration_info, iteration_update_state
 from Defect_Management_backend.views.project.project import project_add, project_del, project_info, project_edit
 
 from Defect_Management_backend.views.project.requirement import requirement_add, requirement_info, requirement_edit, \
@@ -42,4 +42,5 @@ urlpatterns = [
     path('project/iteration/del/', iteration_del),
     path('project/iteration/edit/', iteration_edit),
     path('project/iteration/info/', iteration_info),
+    path('project/iteration/updateState/', iteration_update_state),
 ]

@@ -8,6 +8,7 @@ export default {
       activeIndex:-1,
       dialogVisible:false,
       allIterationData:[],
+      stateButtonLoading:false,
       activeIterationData:{
         title:'',
         state:'',
@@ -139,6 +140,27 @@ export default {
         })
       }
     },
+    changeIterationState(id, nowState) {
+      this.stateButtonLoading=true
+      let newState = ''
+      if (nowState==='打开') {
+        newState = '关闭'
+      }else {
+        newState = '打开'
+      }
+      this.$axios.post('api/project/iteration/updateState/',{
+        rid:id,state:newState
+      }).then((response)=>{
+        const res = response.data
+        if (res['respCode']==='000000') {
+          this.$message.success('更新状态成功')
+          this.$nextTick
+          this.stateButtonLoading=false
+        }else {
+          this.$message.error(res['respMsg'])
+        }
+      })
+    },
   },
 }
 </script>
@@ -146,6 +168,7 @@ export default {
 <template>
   <div>
     <el-row :gutter="10">
+      <!--主页面左侧卡片-->
       <el-col :span="6">
         <el-card shadow="never" class="left_card">
           <div slot="header">
@@ -181,15 +204,37 @@ export default {
         </el-card>
       </el-col>
       <el-col :span="18">
+        <!--主页面右侧卡片-->
         <div style="margin-bottom: 10px">
+          <!--主页面右侧卡片头部子卡片-->
           <el-card shadow="never" class="right_top_card">
             <div v-if="activeIterationData.title">
               <span style="color: #999999;font-size: 18px">{{ activeIterationData.title }}</span>
-              <el-button size="mini" style="border-radius: 40px;margin: 0 20px" type="primary" plain>{{ activeIterationData.state }}</el-button>
+              <el-button
+                v-if="activeIterationData.state==='打开'"
+                size="mini"
+                style="border-radius: 40px;margin: 0 20px"
+                type="primary"
+                plain
+                :loading="stateButtonLoading"
+                @click="changeIterationState(activeIterationData.id,activeIterationData.state)">
+                打开
+              </el-button>
+              <el-button
+                v-else
+                size="mini"
+                style="border-radius: 40px;margin: 0 20px"
+                type="danger"
+                plain
+                :loading="stateButtonLoading"
+                @click="changeIterationState(activeIterationData.id,activeIterationData.state)">
+                关闭
+              </el-button>
               <span style="font-size: 12px;color: #999999">{{ activeIterationData.start }} ~ {{ activeIterationData.end }}</span>
             </div>
           </el-card>
         </div>
+        <!--主页面右侧卡片下方子卡片-->
         <div>
           <el-card shadow="never" style="height: 68vh">
             <el-table :data="activeRequirementData" max-height="58vh" style="width: 100%;">
