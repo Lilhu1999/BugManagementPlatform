@@ -92,4 +92,5 @@ class ProjectFile(models.Model):
     creator = models.CharField(max_length=64, verbose_name='上传人')
     createTime = models.CharField(max_length=64, verbose_name='创建时间',
                                   default=time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()))
-    pid = models.CharField(max_length=16, verbose_name='所属项目ID')
+    pid = models.CharField(max_length=16, verbose_name='所属项目ID', null=True)
+    document_type = models.CharField(max_length=32, verbose_name='文档类型', null=True)

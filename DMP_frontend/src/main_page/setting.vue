@@ -29,6 +29,16 @@
           </div>
         </div>
       </el-col>
+      <el-col :span="4">
+        <div class="div_img" @click="$router.push('documentManage')">
+          <div>
+            <el-image :src="require('../assets/系统设置页面文档图标.png')"></el-image>
+          </div>
+          <div>
+            <span>文档管理</span>
+          </div>
+        </div>
+      </el-col>
     </el-row>
   </el-card>
   <router-view></router-view>

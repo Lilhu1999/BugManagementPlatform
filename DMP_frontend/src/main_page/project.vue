@@ -22,8 +22,8 @@
               </el-card>
             </el-col>
             <el-col :span="4" style="margin-bottom: 20px" v-if="$cookies.get('user_type')==='管理员'">
-              <el-card shadow="hover" :body-style="{ padding:'10px' }" class="point">
-                <el-image :src="require('../assets/项目页新增图标.png')" style="background: #EBEEF5;width: 160px;height: 160px" @click="setVisible"></el-image>
+              <el-card shadow="hover" :body-style="{ padding:'10px' }" class="point add_card">
+                <el-icon class="el-icon-circle-plus-outline add_card_icon" @click="setVisible"></el-icon>
               </el-card>
             </el-col>
           </el-row>
@@ -145,5 +145,16 @@
 }
 .point {
   cursor: pointer;
+}
+.add_card{
+  display: flex;
+  width: 160px;
+  height: 160px;
+  justify-content: center;
+  align-items: center;
+}
+.add_card_icon {
+  font-size: 8vh;
+  color: #8cc5ff;
 }
 </style>

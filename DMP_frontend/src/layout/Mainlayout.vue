@@ -114,7 +114,7 @@ export default {
   background: #EBEEF5;
   padding: 0;
   overflow-x: hidden;
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 10px 0 0;
   height: 80vh;
 }
 .el-aside {

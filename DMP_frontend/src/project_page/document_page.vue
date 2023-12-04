@@ -6,6 +6,7 @@ export default {
     return {
       dialogVisible:false,
       tableData:[],
+      document_type:'项目文档',
       searchForm:{
         fileName:'',
         creator:'',
@@ -123,7 +124,7 @@ export default {
     <el-dialog :visible="dialogVisible" width="400px" @close="dialogVisible=false;getTableData()">
       <div slot="title">上传项目文档</div>
       <div>
-        <Upload></Upload>
+        <Upload :document_type="document_type"></Upload>
       </div>
     </el-dialog>
   </div>

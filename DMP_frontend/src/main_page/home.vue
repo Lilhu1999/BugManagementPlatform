@@ -44,7 +44,7 @@ export default {
         </div>
         <el-row :gutter="30">
           <el-col :span="12">
-            <el-card shadow="never" style="height: 73vh">
+            <el-card shadow="never" style="height: 75vh">
               <div slot="header">
                 <span>待处理BUG</span>
               </div>

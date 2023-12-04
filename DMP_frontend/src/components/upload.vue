@@ -1,5 +1,6 @@
 <script>
 export default {
+  props:['document_type'],
   data() {
     return {
       uploadData:{

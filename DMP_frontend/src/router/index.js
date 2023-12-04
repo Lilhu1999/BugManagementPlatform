@@ -96,6 +96,11 @@ const router = new Router({
           name:'partManager',
           component:() => import('../sys_child_page/part_manager.vue')
         },
+        {
+          path:'/documentManage',
+          name:'documentManage',
+          component:() => import('../sys_child_page/document_manage.vue')
+        },
       ]
     },
   ]

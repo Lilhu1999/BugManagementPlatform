@@ -171,9 +171,9 @@ export default {
                 <el-select v-model="form.iteration" size="small" class="right_input_width">
                   <el-option
                     v-for="item in iterationOption"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.id"
+                    :label="item.title"
+                    :value="item.id">
                   </el-option>
                 </el-select>
               </el-form-item>
