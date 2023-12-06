@@ -11,9 +11,9 @@
           style="width: 60px"
           @open="handleOpen"
           @close="handleClose"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b">
+          background-color="black"
+          text-color="#FFFFFF"
+          >
           <el-menu-item>
             logo
           </el-menu-item>

@@ -7,6 +7,23 @@ from django.views.decorators.http import require_http_methods
 from Defect_Management_backend.models import ProjectFile
 
 
+# 主页面文件查询接口
+@csrf_exempt
+@require_http_methods(['GET'])
+def public_document_info(request):
+    response = {}
+    try:
+        document_type = request.GET.get('document_type')
+        info = ProjectFile.objects.filter(document_type=document_type).values()
+        response['respCode'] = '000000'
+        response['respMsg'] = 'success'
+        response['list'] = list(info)
+    except Exception as e:
+        response['respCode'] = '999999'
+        response['respMsg'] = str(e)
+    return JsonResponse(response)
+
+
 # 项目文件查询接口
 @csrf_exempt
 @require_http_methods(['GET'])
@@ -60,10 +77,12 @@ def upload(request):
     try:
         pid = request.POST.get('pid')
         creator = request.POST.get('creator')
+        document_type = request.POST.get('document_type')
         FileOperation.handle_upload_file(request.FILES.get('file'), str(request.FILES['file']))
         filepath = FileOperation.upload_file_path(request.FILES.get('file'), str(request.FILES['file']))
         filename = FileOperation.upload_file_name(request.FILES.get('file'), str(request.FILES['file']))
-        ProjectFile.objects.create(fileName=filename, filePath=filepath, creator=creator, pid=pid)
+        ProjectFile.objects.create(fileName=filename, filePath=filepath, creator=creator, document_type=document_type,
+                                   pid=pid)
         response['respCode'] = '000000'
         response['respMsg'] = 'success'
     except Exception as e:

@@ -4,6 +4,7 @@ export default {
   components: {Upload},
   data() {
     return {
+      pid:'',
       dialogVisible:false,
       tableData:[],
       document_type:'项目文档',
@@ -15,6 +16,7 @@ export default {
   },
   mounted() {
     this.getTableData()
+    this.pid = sessionStorage.getItem('pid')
   },
   methods:{
     // 获取页面数据
@@ -124,7 +126,7 @@ export default {
     <el-dialog :visible="dialogVisible" width="400px" @close="dialogVisible=false;getTableData()">
       <div slot="title">上传项目文档</div>
       <div>
-        <Upload :document_type="document_type"></Upload>
+        <Upload :document_type="document_type" :project-id="pid"></Upload>
       </div>
     </el-dialog>
   </div>
