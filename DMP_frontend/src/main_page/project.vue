@@ -21,9 +21,9 @@
                 </div>
               </el-card>
             </el-col>
-            <el-col :span="4" style="margin-bottom: 20px" v-if="$cookies.get('user_type')==='管理员'">
+            <el-col :span="4" style="margin-bottom: 20px" v-if="$cookies.get('user_type')==='管理员'" @click.native="setVisible">
               <el-card shadow="hover" :body-style="{ padding:'10px' }" class="point add_card">
-                <el-icon class="el-icon-circle-plus-outline add_card_icon" @click="setVisible"></el-icon>
+                <el-icon class="el-icon-circle-plus-outline add_card_icon"></el-icon>
               </el-card>
             </el-col>
           </el-row>
