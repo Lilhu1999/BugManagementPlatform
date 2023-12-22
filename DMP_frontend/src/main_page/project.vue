@@ -9,7 +9,7 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="进行中的项目" name="进行中的项目">
           <el-row :gutter="30">
-            <el-col :span="4" v-for="item in activeProject" :key="item" style="margin-bottom: 10px">
+            <el-col :span="4" v-for="item in activeProject" :key="item" style="margin-bottom: 10px" @click.native="toPath(item.id)">
               <el-card shadow="hover" :body-style="{ padding:'10px' }" class="point">
                 <el-image :src="require('../assets/项目默认封面.jpg')" class="card_img"></el-image>
                 <div style="padding: 5px;">

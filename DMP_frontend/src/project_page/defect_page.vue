@@ -1,20 +1,22 @@
 <script>
 import DefectDialog from "../components/dialog/DefectDialog.vue";
 import LinkDialog from "../components/dialog/LinkDialog.vue";
+import ShaiXuan from "../components/shaixuan.vue";
 
 export default {
-  components: {LinkDialog, DefectDialog},
+  components: {LinkDialog, DefectDialog,ShaiXuan},
   data(){
-    return{
-      tableData:[],
-      selectionArr:[],
-      dialogVisible:false,
-      linkDialogVisible:false,
-      pid:'',
-      editOrAdd:'',
-      editForm:[],
-      selectValue:'',
-      option:[{
+    return {
+      allData:[],
+      tableData: [],
+      selectionArr: [],// 被选中的缺陷的数组
+      dialogVisible: false,
+      linkDialogVisible: false,
+      pid: '',
+      editOrAdd: '',
+      editForm: [],
+      selectValue: '',
+      option: [{
         value: '待解决',
         label: '待解决'
       }, {
@@ -26,7 +28,7 @@ export default {
       }, {
         value: '已关闭',
         label: '已关闭'
-      }]
+      }],
     }
   },
   created() {
@@ -41,26 +43,48 @@ export default {
     getLinkDialogVs(val) {
       this.linkDialogVisible =val
     },
+    getSelectedData(val) {
+      let arr = this.allData
+      let temp = []
+      let arr_id = []
+      for (let i in val) {
+        if (val[i] !== '全部') {
+          for (let j in arr) {
+            if (arr[j][i] === val[i]) {
+              if (arr_id.includes(arr[j]['id'])) {
+                continue
+              }else {
+                arr_id.push(arr[j]['id'])
+                temp.push(arr[j])
+              }
+            }
+          }
+          arr = temp
+        }
+      }
+      this.tableData = arr
+    },
     // 父组件接收到子组件传递的val时，触发搜索页面数据操作
     fresh(val){
       if (val) {
         this.getDefectInfo(this.pid)
       }
     },
-    // 通过session内存储的项目ID获取需求列表
+    // 通过session内存储的项目ID获取缺陷列表
     getDefectInfo(pid) {
       this.$axios.get('api/project/defect/info/',{
         params:{pid:pid}
       }).then((response)=>{
         const res = response.data
         if (res['respCode']==='000000'){
+          this.allData = res['list']
           this.tableData = res['list']
         }else {
           this.$message.error(res['respMsg'])
         }
       })
     },
-    // 点击详情查询目标需求内容
+    // 点击详情查询目标缺陷内容
     getEditDefectForm(rid) {
       this.$axios.get('api/project/defect/info/',{
         params:{rid:rid}
@@ -73,7 +97,7 @@ export default {
         }
       })
     },
-    // 需求删除按钮
+    // 缺陷删除按钮
     delDefect(rid) {
       this.$axios.get('api/project/defect/del/',{
         params:{rid:rid}
@@ -87,7 +111,7 @@ export default {
         }
       })
     },
-    // 更新需求状态
+    // 更新缺陷状态
     stateChange(rid,newState) {
       this.$axios.post('api/project/defect/updateState/',{
         rid:rid,newState:newState
@@ -100,6 +124,7 @@ export default {
         }
       })
     },
+    // 更多操作下拉框功能
     dropdownCommand(command) {
       if (command==='link') {
         if (this.selectionArr[0]) {
@@ -112,6 +137,7 @@ export default {
     selectionChange(selection)  {
       this.selectionArr = selection
     },
+    // 根据缺陷状态动态更换css
     tableRowClassName({row, rowIndex}) {
       if (row['state']==='已解决') {
         return 'success-row'
@@ -145,6 +171,7 @@ export default {
         <el-dropdown-item icon="el-icon-link" command="link">关联用例</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
+    <ShaiXuan style="float: right" @getSelectedData="getSelectedData"></ShaiXuan>
   </div>
   <div>
     <el-card>

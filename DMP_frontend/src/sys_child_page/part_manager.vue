@@ -7,6 +7,7 @@ import SelectTree from './SelectTree.vue'
         tableData:[],
         treeData: [],
         empSearchInput:'',
+        filterText:'',
         options:[{
           value:0,
           label:'普通成员'
@@ -36,9 +37,21 @@ import SelectTree from './SelectTree.vue'
       this.getTreeData()
       this.getEmp()
     },
+    watch:{
+      filterText(newValue) {
+        this.$refs.tree.filter(newValue)
+      }
+    },
     methods: {
       goBack() {
         window.history.back()
+      },
+      filterNode(value, data) {
+        if (!value) {
+          return true
+        }else {
+          return data.label.indexOf(value) !== -1;
+        }
       },
       // 接收子组件传值
       getPid(pid){
@@ -116,7 +129,6 @@ import SelectTree from './SelectTree.vue'
       },
       //树节点点击，查询对应部门人员
       handleNodeClick(data, node) {
-        console.log("点击节点", data, node);
         this.getEmp(data['id'])
       },
       clearDeptDialog() {
@@ -144,12 +156,23 @@ import SelectTree from './SelectTree.vue'
       <el-col :span="6">
         <el-card shadow="never">
           <div slot="header" class="clearfix">
-            <el-input placeholder="请输入部门名称" style="width: 150px" size="small"></el-input>
+            <el-input
+              placeholder="输入关键字进行过滤"
+              v-model="filterText"
+              size="small">
+            </el-input>
             <el-button size="small" type="primary">查询</el-button>
             <el-button size="small" type="success" @click="partDialogVisible=true">新增</el-button>
           </div>
           <div>
-            <el-tree :data="treeData" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+            <el-tree
+              class="filter-tree"
+              :data="treeData"
+              :props="defaultProps"
+              :filter-node-method="filterNode"
+              @node-click="handleNodeClick"
+              ref="tree">
+            </el-tree>
           </div>
         </el-card>
       </el-col>
