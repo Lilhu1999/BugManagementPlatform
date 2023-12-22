@@ -7,7 +7,7 @@ import ElementUI from 'element-ui'
 import VueResource from 'vue-resource'
 import router from './router'
 import VueCookies from 'vue-cookies'
-import "amfe-flexible/index.js";
+import '../build/rem'
 
 import 'element-ui/lib/theme-chalk/index.css'
 
