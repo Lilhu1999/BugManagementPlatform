@@ -8,7 +8,6 @@
           :collapse="true"
           :default-active="activePath"
           class="el-menu-vertical-demo"
-          style="width: 60px"
           @open="handleOpen"
           @close="handleClose"
           background-color="black"
@@ -120,9 +119,11 @@ export default {
 .el-aside {
   border-radius:10px 0 0 10px;
   overflow-x: hidden;
+  width: 6vw !important;
 }
 .el-menu {
   height: 97vh;
+  width: 6vw;
 }
 .el-footer {
   background-color: #EBEEF5;
@@ -133,13 +134,13 @@ export default {
   height: 10vh;
 }
 .el_menu_i_sty{
-  width: 4vw !important;
+  width: 6vw !important;
   height: 2vh;
   position: relative;
   left: -1.3vw;
 }
 .el_menu_text_sty{
-  width: 4vw;
+  width: 6vw;
   height: 2vh;
   text-align: center;
   position: relative;
